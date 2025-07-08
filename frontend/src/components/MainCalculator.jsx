@@ -181,6 +181,48 @@ const MainCalculator = ({ onResult, initialData }) => {
                   max="2024-01-01"
                 />
               </div>
+              {/* Quick Date Buttons */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const date = new Date();
+                    date.setFullYear(date.getFullYear() - 10);
+                    setBuyDate(date.toISOString().split('T')[0]);
+                  }}
+                  className="text-xs"
+                >
+                  10 Years Ago
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const date = new Date();
+                    date.setFullYear(date.getFullYear() - 5);
+                    setBuyDate(date.toISOString().split('T')[0]);
+                  }}
+                  className="text-xs"
+                >
+                  5 Years Ago
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const date = new Date();
+                    date.setFullYear(date.getFullYear() - 1);
+                    setBuyDate(date.toISOString().split('T')[0]);
+                  }}
+                  className="text-xs"
+                >
+                  1 Year Ago
+                </Button>
+              </div>
             </div>
 
             {/* Sell Date */}
@@ -198,6 +240,43 @@ const MainCalculator = ({ onResult, initialData }) => {
                   className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500"
                   max="2024-12-31"
                 />
+              </div>
+              {/* Quick Date Buttons */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const today = new Date();
+                    setSellDate(today.toISOString().split('T')[0]);
+                  }}
+                  className="text-xs"
+                >
+                  Today
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSellDate('2024-01-01');
+                  }}
+                  className="text-xs"
+                >
+                  2024 Start
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSellDate('2023-01-01');
+                  }}
+                  className="text-xs"
+                >
+                  2023 Start
+                </Button>
               </div>
             </div>
           </div>
