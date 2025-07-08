@@ -4,6 +4,7 @@ import './App.css';
 import { Toaster } from './components/ui/sonner';
 import Header from './components/Header';
 import MainCalculator from './components/MainCalculator';
+import AdvancedCalculator from './components/AdvancedCalculator';
 import Timeline from './components/Timeline';
 import Scenarios from './components/Scenarios';
 import Leaderboard from './components/Leaderboard';
