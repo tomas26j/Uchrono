@@ -43,6 +43,7 @@ function App() {
 
   const sections = [
     { id: 'calculator', title: 'Calculator', icon: '📊' },
+    { id: 'advanced', title: 'Advanced', icon: '🔬' },
     { id: 'timeline', title: 'Timeline', icon: '📈' },
     { id: 'scenarios', title: 'Scenarios', icon: '🎯' },
     { id: 'leaderboard', title: 'Leaderboard', icon: '🏆' },
