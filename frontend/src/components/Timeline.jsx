@@ -302,7 +302,11 @@ const Timeline = ({ asset, calculatorData }) => {
             
             <div className="text-center p-4 bg-purple-50 rounded-xl">
               <div className="text-2xl font-bold text-purple-600">
-                {((timelineData.sellPrice / timelineData.buyPrice) ** (365 / Math.round((new Date(timelineData.sellDate) - new Date(timelineData.buyDate)) / (1000 * 60 * 60 * 24))) - 1) * 100).toFixed(1)}%
+                {(() => {
+                  const daysHeld = Math.round((new Date(timelineData.sellDate) - new Date(timelineData.buyDate)) / (1000 * 60 * 60 * 24));
+                  const annualReturn = ((timelineData.sellPrice / timelineData.buyPrice) ** (365 / daysHeld) - 1) * 100;
+                  return annualReturn.toFixed(1);
+                })()}%
               </div>
               <div className="text-sm text-gray-600">Annual Return</div>
             </div>
