@@ -100,6 +100,7 @@ function App() {
                     initialData={calculatorData}
                   />
                 )}
+                {activeSection === 'advanced' && <AdvancedCalculator />}
                 {activeSection === 'timeline' && (
                   <Timeline 
                     asset={selectedAsset} 
