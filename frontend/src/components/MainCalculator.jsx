@@ -145,6 +145,45 @@ const MainCalculator = ({ onResult, initialData }) => {
                   ))}
                 </SelectContent>
               </Select>
+              {/* Quick Asset Buttons */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedAsset('bitcoin')}
+                  className="text-xs"
+                >
+                  ₿ Bitcoin
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedAsset('tesla')}
+                  className="text-xs"
+                >
+                  🚗 Tesla
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedAsset('nvidia')}
+                  className="text-xs"
+                >
+                  💻 NVIDIA
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedAsset('apple')}
+                  className="text-xs"
+                >
+                  🍎 Apple
+                </Button>
+              </div>
             </div>
 
             {/* Investment Amount */}
@@ -162,6 +201,45 @@ const MainCalculator = ({ onResult, initialData }) => {
                   onChange={(e) => setAmount(e.target.value)}
                   className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500"
                 />
+              </div>
+              {/* Quick Amount Buttons */}
+              <div className="flex flex-wrap gap-2 mt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setAmount('100')}
+                  className="text-xs"
+                >
+                  $100
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setAmount('1000')}
+                  className="text-xs"
+                >
+                  $1,000
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setAmount('10000')}
+                  className="text-xs"
+                >
+                  $10,000
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setAmount('50000')}
+                  className="text-xs"
+                >
+                  $50,000
+                </Button>
               </div>
             </div>
 
