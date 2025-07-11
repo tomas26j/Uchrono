@@ -136,7 +136,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                             </div>
                             <div>
                               <div className="font-medium">{asset.name}</div>
-                              <div className="text-xs text-gray-500">{asset.symbol}</div>
+                              <div className="text-xs text-muted-foreground">{asset.symbol}</div>
                             </div>
                           </div>
                         </SelectItem>
