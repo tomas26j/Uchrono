@@ -53,7 +53,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+      <div className="App min-h-screen bg-background">
         <Header />
         
         {/* Daily Tip Banner */}
@@ -68,7 +68,7 @@ function App() {
         )}
 
         {/* Navigation */}
-        <nav className="bg-white shadow-sm border-b sticky top-0 z-40">
+        <nav className="bg-card shadow-sm border-b border-border sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex space-x-8 overflow-x-auto">
               {sections.map((section) => (
@@ -77,8 +77,8 @@ function App() {
                   onClick={() => setActiveSection(section.id)}
                   className={`flex items-center space-x-2 py-4 px-2 border-b-2 transition-all duration-200 whitespace-nowrap ${
                     activeSection === section.id
-                      ? 'border-blue-500 text-blue-600 font-semibold'
-                      : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+                      ? 'border-blue-500 text-blue-400 font-semibold'
+                      : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted'
                   }`}
                 >
                   <span className="text-lg">{section.icon}</span>
@@ -119,14 +119,14 @@ function App() {
         </main>
 
         {/* Footer */}
-        <footer className="bg-gray-900 text-white py-12 mt-16">
+        <footer className="bg-card text-foreground py-12 mt-16 border-t border-border">
           <div className="max-w-6xl mx-auto px-4">
             <div className="text-center">
               <h3 className="text-2xl font-bold mb-4">Contrafactum</h3>
-              <p className="text-gray-400 text-lg mb-6">
+              <p className="text-muted-foreground text-lg mb-6">
                 What could have been, what you can learn
               </p>
-              <div className="flex justify-center space-x-6 text-sm text-gray-500">
+              <div className="flex justify-center space-x-6 text-sm text-muted-foreground">
                 <span>Educational purposes only</span>
                 <span>•</span>
                 <span>Past performance doesn't predict future results</span>
