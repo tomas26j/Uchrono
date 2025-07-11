@@ -99,12 +99,12 @@ const MainCalculator = ({ onResult, initialData }) => {
   return (
     <div className="space-y-8">
       {/* Calculator Form */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Investment Calculator
           </CardTitle>
-          <p className="text-gray-600 mt-2">
+          <p className="text-muted-foreground mt-2">
             Discover what your past investments would be worth today
           </p>
         </CardHeader>
