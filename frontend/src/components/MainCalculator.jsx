@@ -188,18 +188,18 @@ const MainCalculator = ({ onResult, initialData }) => {
 
             {/* Investment Amount */}
             <div className="space-y-2">
-              <Label htmlFor="amount" className="text-sm font-semibold text-gray-700">
+              <Label htmlFor="amount" className="text-sm font-semibold text-foreground">
                 Investment Amount ($)
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <DollarSign className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="amount"
                   type="number"
                   placeholder="1000"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500"
+                  className="pl-10 h-12 border-2 border-border focus:border-blue-500"
                 />
               </div>
               {/* Quick Amount Buttons */}
