@@ -112,17 +112,17 @@ const MainCalculator = ({ onResult, initialData }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Asset Selection */}
             <div className="space-y-2">
-              <Label htmlFor="asset" className="text-sm font-semibold text-gray-700">
+              <Label htmlFor="asset" className="text-sm font-semibold text-foreground">
                 Choose Asset
               </Label>
               <Select value={selectedAsset} onValueChange={setSelectedAsset}>
-                <SelectTrigger className="h-12 border-2 border-gray-200 focus:border-blue-500">
+                <SelectTrigger className="h-12 border-2 border-border focus:border-blue-500">
                   <SelectValue placeholder="Select an asset..." />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.entries(assetsByCategory).map(([category, assets]) => (
                     <div key={category}>
-                      <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
+                      <div className="px-2 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-muted">
                         {category}
                       </div>
                       {assets.map((asset) => (
