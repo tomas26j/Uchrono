@@ -6,6 +6,7 @@ import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Calendar, TrendingUp, TrendingDown, DollarSign, Share2 } from 'lucide-react';
 import { ASSETS, generateMockPriceData } from '../data/mockData';
+import { fetchStockHistory } from '../lib/alphaVantage';
 import { toast } from 'sonner';
 
 const MainCalculator = ({ onResult, initialData }) => {
@@ -17,7 +18,7 @@ const MainCalculator = ({ onResult, initialData }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData && !selectedAsset && !amount && !buyDate && !sellDate) {
       setSelectedAsset(initialData.asset);
       setAmount(initialData.amount.toString());
       setBuyDate(initialData.buyDate);
@@ -25,6 +26,16 @@ const MainCalculator = ({ onResult, initialData }) => {
       calculateInvestment();
     }
   }, [initialData]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.detail) {
+        toast.warning(e.detail, { duration: 5000 });
+      }
+    };
+    window.addEventListener('alphaVantageWarning', handler);
+    return () => window.removeEventListener('alphaVantageWarning', handler);
+  }, []);
 
   const calculateInvestment = async () => {
     if (!selectedAsset || !amount || !buyDate || !sellDate) {
@@ -40,12 +51,16 @@ const MainCalculator = ({ onResult, initialData }) => {
     setLoading(true);
     
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
       const asset = ASSETS.find(a => a.id === selectedAsset);
-      const priceData = generateMockPriceData(selectedAsset, buyDate, sellDate);
-      
+      let priceData = [];
+      if (asset.category === 'stock') {
+        // Usar Alpha Vantage para acciones
+        priceData = await fetchStockHistory(asset.symbol, buyDate, sellDate);
+      } else {
+        // Usar mock para otros activos
+        priceData = generateMockPriceData(selectedAsset, buyDate, sellDate);
+      }
+
       const buyPrice = priceData.find(p => p.date === buyDate)?.price || priceData[0]?.price;
       const sellPrice = priceData.find(p => p.date === sellDate)?.price || priceData[priceData.length - 1]?.price;
       
@@ -75,7 +90,7 @@ const MainCalculator = ({ onResult, initialData }) => {
       
       toast.success('Investment calculated successfully!');
     } catch (error) {
-      toast.error('Error calculating investment');
+      toast.error(`Error calculando inversión: ${error.message || error}`);
     } finally {
       setLoading(false);
     }
