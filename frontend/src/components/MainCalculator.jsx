@@ -371,10 +371,10 @@ const MainCalculator = ({ onResult, initialData }) => {
 
       {/* Results */}
       {result && (
-        <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl font-bold text-gray-900">
+              <CardTitle className="text-2xl font-bold text-foreground">
                 Investment Results
               </CardTitle>
               <Button
