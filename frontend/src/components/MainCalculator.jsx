@@ -245,17 +245,17 @@ const MainCalculator = ({ onResult, initialData }) => {
 
             {/* Buy Date */}
             <div className="space-y-2">
-              <Label htmlFor="buyDate" className="text-sm font-semibold text-gray-700">
+              <Label htmlFor="buyDate" className="text-sm font-semibold text-foreground">
                 Purchase Date
               </Label>
               <div className="relative">
-                <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                <Calendar className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="buyDate"
                   type="date"
                   value={buyDate}
                   onChange={(e) => setBuyDate(e.target.value)}
-                  className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500"
+                  className="pl-10 h-12 border-2 border-border focus:border-blue-500"
                   max="2024-01-01"
                 />
               </div>
