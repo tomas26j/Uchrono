@@ -14,6 +14,8 @@ const SYMBOL_MAP = {
   'JPMorgan Chase': 'JPM',
   'Berkshire Hathaway': 'BRK.A',
   'Oracle': 'ORCL',
+  'Tesla': 'TSLA',
+  'NVIDIA': 'NVDA',
 };
 
 let stockData = null;

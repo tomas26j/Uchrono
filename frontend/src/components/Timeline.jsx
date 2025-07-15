@@ -18,12 +18,12 @@ const Timeline = ({ asset, calculatorData }) => {
 
   if (!timelineData) {
     return (
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardContent className="py-12">
           <div className="text-center">
-            <Calendar className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Timeline Data</h3>
-            <p className="text-gray-600">
+            <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-foreground mb-2">No Timeline Data</h3>
+            <p className="text-muted-foreground">
               Calculate an investment first to see the timeline visualization
             </p>
           </div>
@@ -75,7 +75,7 @@ const Timeline = ({ asset, calculatorData }) => {
   return (
     <div className="space-y-8">
       {/* Timeline Header */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -86,16 +86,21 @@ const Timeline = ({ asset, calculatorData }) => {
                 {assetInfo.icon}
               </div>
               <div>
-                <CardTitle className="text-2xl font-bold text-gray-900">
+                <CardTitle className="text-2xl font-bold text-foreground">
                   {assetInfo.name} Timeline
                 </CardTitle>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {formatDate(timelineData.buyDate)} to {formatDate(timelineData.sellDate)}
                 </p>
+                {timelineData.usedMock && (
+                  <div className="mt-2 text-sm font-semibold text-yellow-600 bg-yellow-100 rounded px-2 py-1 inline-block shadow">
+                    ADVERTENCIA: Se están usando datos simulados (mock) por falta de datos reales.
+                  </div>
+                )}
               </div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-gray-900">
+              <div className="text-2xl font-bold text-foreground">
                 ${timelineData.finalValue.toFixed(2)}
               </div>
               <div className={`text-sm font-semibold ${
@@ -116,7 +121,7 @@ const Timeline = ({ asset, calculatorData }) => {
             variant={viewMode === mode.id ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode(mode.id)}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
           >
             <span>{mode.icon}</span>
             <span>{mode.label}</span>
@@ -125,14 +130,14 @@ const Timeline = ({ asset, calculatorData }) => {
       </div>
 
       {/* Timeline Chart */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">
+          <CardTitle className="text-xl font-semibold text-foreground">
             {viewMode === 'portfolio' ? 'Portfolio Value Over Time' : 'Price History'}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="relative h-96 bg-gray-50 rounded-xl p-4">
+          <div className="relative h-96 bg-muted/50 rounded-xl p-4">
             {/* SVG Chart */}
             <svg viewBox="0 0 800 300" className="w-full h-full">
               {/* Grid lines */}
@@ -143,6 +148,60 @@ const Timeline = ({ asset, calculatorData }) => {
               </defs>
               <rect width="800" height="300" fill="url(#grid)" />
               
+              {/* Eje X: Meses */}
+              <g>
+                {(() => {
+                  // Filtrar solo el primer dato de cada mes
+                  const months = [];
+                  const monthLabels = portfolioData.filter((point, idx) => {
+                    const date = new Date(point.date);
+                    const key = `${date.getFullYear()}-${date.getMonth()}`;
+                    if (!months.includes(key)) {
+                      months.push(key);
+                      return true;
+                    }
+                    return false;
+                  });
+                  // Limitar la cantidad de etiquetas para no saturar
+                  const maxLabels = 8;
+                  const step = Math.ceil(monthLabels.length / maxLabels);
+                  return monthLabels.map((point, i) => {
+                    if (i % step !== 0 && i !== monthLabels.length - 1) return null;
+                    const index = portfolioData.findIndex(p => p.date === point.date);
+                    const x = (index / (portfolioData.length - 1)) * 800;
+                    const date = new Date(point.date);
+                    const label = date.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+                    return (
+                      <g key={point.date}>
+                        <text
+                          x={x}
+                          y={295}
+                          textAnchor="middle"
+                          fontSize="14"
+                          fontWeight="bold"
+                          fill="#f3f4f6"
+                          stroke="#111827"
+                          strokeWidth="0.7"
+                          paintOrder="stroke"
+                          style={{filter: 'drop-shadow(0 1px 2px #0008)'}}
+                        >
+                          {label}
+                        </text>
+                        {/* Línea guía vertical clara */}
+                        <line
+                          x1={x}
+                          y1={0}
+                          x2={x}
+                          y2={280}
+                          stroke="#f3f4f680"
+                          strokeDasharray="4 4"
+                          strokeWidth="1"
+                        />
+                      </g>
+                    );
+                  });
+                })()}
+              </g>
               {/* Price/Portfolio line */}
               <g>
                 {viewMode === 'area' && (
@@ -156,7 +215,6 @@ const Timeline = ({ asset, calculatorData }) => {
                     opacity="0.3"
                   />
                 )}
-                
                 {/* Price line */}
                 <path
                   d={`M 0 ${300 - ((portfolioData[0][viewMode === 'portfolio' ? 'portfolioValue' : 'price'] - (viewMode === 'portfolio' ? Math.min(...portfolioData.map(p => p.portfolioValue)) : minPrice)) / (viewMode === 'portfolio' ? Math.max(...portfolioData.map(p => p.portfolioValue)) - Math.min(...portfolioData.map(p => p.portfolioValue)) : priceRange) * 250)} ${portfolioData.map((point, index) => {
@@ -168,41 +226,41 @@ const Timeline = ({ asset, calculatorData }) => {
                     return `L ${x} ${y}`;
                   }).join(' ')}`}
                   fill="none"
-                  stroke={assetInfo.color}
-                  strokeWidth="3"
+                  stroke="#f3f4f6"
+                  strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  style={{filter: 'drop-shadow(0 2px 4px #0006)'}}
                 />
-                
                 {/* Buy point */}
                 {buyPoint && (
                   <g>
                     <circle
                       cx={portfolioData.findIndex(p => p.date === buyPoint.date) / (portfolioData.length - 1) * 800}
                       cy={300 - ((buyPoint.price - minPrice) / priceRange * 250)}
-                      r="6"
+                      r="7"
                       fill="#10b981"
-                      stroke="white"
+                      stroke="#fff"
                       strokeWidth="3"
+                      style={{filter: 'drop-shadow(0 1px 2px #0008)'}}
                     />
                   </g>
                 )}
-                
                 {/* Sell point */}
                 {sellPoint && (
                   <g>
                     <circle
                       cx={portfolioData.findIndex(p => p.date === sellPoint.date) / (portfolioData.length - 1) * 800}
                       cy={300 - ((sellPoint.price - minPrice) / priceRange * 250)}
-                      r="6"
+                      r="7"
                       fill="#ef4444"
-                      stroke="white"
+                      stroke="#fff"
                       strokeWidth="3"
+                      style={{filter: 'drop-shadow(0 1px 2px #0008)'}}
                     />
                   </g>
                 )}
               </g>
-              
               {/* Gradient definition */}
               <defs>
                 <linearGradient id="priceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -214,13 +272,13 @@ const Timeline = ({ asset, calculatorData }) => {
             
             {/* Hover tooltip */}
             {hoveredPoint && (
-              <div className="absolute bg-white shadow-lg rounded-lg p-3 border pointer-events-none">
-                <div className="text-sm font-semibold">{formatDate(hoveredPoint.date)}</div>
-                <div className="text-xs text-gray-600">
+              <div className="absolute bg-card shadow-lg rounded-lg p-3 border border-border pointer-events-none">
+                <div className="text-sm font-semibold text-foreground">{formatDate(hoveredPoint.date)}</div>
+                <div className="text-xs text-muted-foreground">
                   Price: {formatPrice(hoveredPoint.price)}
                 </div>
                 {viewMode === 'portfolio' && (
-                  <div className="text-xs text-gray-600">
+                  <div className="text-xs text-muted-foreground">
                     Portfolio: ${hoveredPoint.portfolioValue.toFixed(2)}
                   </div>
                 )}
@@ -231,9 +289,9 @@ const Timeline = ({ asset, calculatorData }) => {
       </Card>
 
       {/* Key Events */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">
+          <CardTitle className="text-xl font-semibold text-foreground">
             Key Events
           </CardTitle>
         </CardHeader>
@@ -245,16 +303,16 @@ const Timeline = ({ asset, calculatorData }) => {
                 <TrendingUp className="h-5 w-5 text-white" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-gray-900">Purchase</div>
-                <div className="text-sm text-gray-600">
+                <div className="font-semibold text-foreground">Purchase</div>
+                <div className="text-sm text-muted-foreground">
                   {formatDate(timelineData.buyDate)} • ${timelineData.amount} invested
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-gray-900">
+                <div className="font-semibold text-foreground">
                   {formatPrice(timelineData.buyPrice)}
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-muted-foreground">
                   {timelineData.shares.toFixed(6)} shares
                 </div>
               </div>
@@ -266,16 +324,16 @@ const Timeline = ({ asset, calculatorData }) => {
                 <TrendingDown className="h-5 w-5 text-white" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-gray-900">Sale</div>
-                <div className="text-sm text-gray-600">
+                <div className="font-semibold text-foreground">Sale</div>
+                <div className="text-sm text-muted-foreground">
                   {formatDate(timelineData.sellDate)} • Portfolio liquidated
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-gray-900">
+                <div className="font-semibold text-foreground">
                   {formatPrice(timelineData.sellPrice)}
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-muted-foreground">
                   ${timelineData.finalValue.toFixed(2)} total
                 </div>
               </div>
@@ -285,9 +343,9 @@ const Timeline = ({ asset, calculatorData }) => {
       </Card>
 
       {/* Performance Summary */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">
+          <CardTitle className="text-xl font-semibold text-foreground">
             Performance Summary
           </CardTitle>
         </CardHeader>
@@ -297,7 +355,7 @@ const Timeline = ({ asset, calculatorData }) => {
               <div className="text-2xl font-bold text-blue-600">
                 {Math.round((new Date(timelineData.sellDate) - new Date(timelineData.buyDate)) / (1000 * 60 * 60 * 24))}
               </div>
-              <div className="text-sm text-gray-600">Days Held</div>
+              <div className="text-sm text-muted-foreground">Days Held</div>
             </div>
             
             <div className="text-center p-4 bg-purple-50 rounded-xl">
@@ -308,21 +366,21 @@ const Timeline = ({ asset, calculatorData }) => {
                   return annualReturn.toFixed(1);
                 })()}%
               </div>
-              <div className="text-sm text-gray-600">Annual Return</div>
+              <div className="text-sm text-muted-foreground">Annual Return</div>
             </div>
             
             <div className="text-center p-4 bg-green-50 rounded-xl">
               <div className="text-2xl font-bold text-green-600">
                 {formatPrice(maxPrice)}
               </div>
-              <div className="text-sm text-gray-600">Peak Price</div>
+              <div className="text-sm text-muted-foreground">Peak Price</div>
             </div>
             
             <div className="text-center p-4 bg-red-50 rounded-xl">
               <div className="text-2xl font-bold text-red-600">
                 {formatPrice(minPrice)}
               </div>
-              <div className="text-sm text-gray-600">Lowest Price</div>
+              <div className="text-sm text-muted-foreground">Lowest Price</div>
             </div>
           </div>
         </CardContent>

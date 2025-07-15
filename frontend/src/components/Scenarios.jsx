@@ -40,12 +40,12 @@ const Scenarios = ({ onScenarioSelect }) => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
+        <CardHeader className="text-center pb-6">
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Curated Scenarios
           </CardTitle>
-          <p className="text-gray-600 mt-2">
+          <p className="text-muted-foreground mt-2">
             Explore famous investment scenarios and learn from history's biggest wins and losses
           </p>
         </CardHeader>
@@ -54,12 +54,12 @@ const Scenarios = ({ onScenarioSelect }) => {
       {/* Search and Filters */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Search scenarios..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500"
+            className="pl-10 h-12 border-2 border-border focus:border-blue-500"
           />
         </div>
         
@@ -70,7 +70,7 @@ const Scenarios = ({ onScenarioSelect }) => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
             >
               <span>{category.icon}</span>
               <span>{category.label}</span>
@@ -86,7 +86,7 @@ const Scenarios = ({ onScenarioSelect }) => {
           const result = calculateScenarioResult(scenario);
           
           return (
-            <Card key={scenario.id} className="backdrop-blur-sm bg-white/90 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <Card key={scenario.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -97,7 +97,7 @@ const Scenarios = ({ onScenarioSelect }) => {
                       {asset.icon}
                     </div>
                     <div>
-                      <CardTitle className="text-lg font-bold text-gray-900">
+                      <CardTitle className="text-lg font-bold text-foreground">
                         {scenario.title}
                       </CardTitle>
                     </div>
@@ -106,7 +106,7 @@ const Scenarios = ({ onScenarioSelect }) => {
                     <Star className="h-5 w-5 text-yellow-500 fill-current" />
                   )}
                 </div>
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="text-sm text-muted-foreground mt-2">
                   {scenario.description}
                 </p>
               </CardHeader>
@@ -118,13 +118,13 @@ const Scenarios = ({ onScenarioSelect }) => {
                     <div className="text-lg font-bold text-blue-600">
                       ${scenario.amount}
                     </div>
-                    <div className="text-xs text-gray-600">Investment</div>
+                    <div className="text-xs text-muted-foreground">Investment</div>
                   </div>
                   <div className="text-center p-3 bg-green-50 rounded-lg">
                     <div className="text-lg font-bold text-green-600">
                       ${result.finalValue.toFixed(0)}
                     </div>
-                    <div className="text-xs text-gray-600">Final Value</div>
+                    <div className="text-xs text-muted-foreground">Final Value</div>
                   </div>
                 </div>
 
@@ -134,11 +134,11 @@ const Scenarios = ({ onScenarioSelect }) => {
                     <TrendingUp className="h-6 w-6" />
                     <span>+{result.percentage.toFixed(0)}%</span>
                   </div>
-                  <div className="text-xs text-gray-600">Total Return</div>
+                  <div className="text-xs text-muted-foreground">Total Return</div>
                 </div>
 
                 {/* Time Period */}
-                <div className="flex items-center justify-center space-x-2 text-sm text-gray-600">
+                <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
                   <Clock className="h-4 w-4" />
                   <span>{scenario.buyDate} to {scenario.sellDate}</span>
                 </div>
@@ -153,8 +153,8 @@ const Scenarios = ({ onScenarioSelect }) => {
                 </div>
 
                 {/* Story Preview */}
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <p className="text-sm text-gray-700 leading-relaxed">
+                <div className="bg-muted/50 p-3 rounded-lg">
+                  <p className="text-sm text-foreground leading-relaxed">
                     {scenario.story.substring(0, 120)}...
                   </p>
                 </div>
@@ -162,7 +162,7 @@ const Scenarios = ({ onScenarioSelect }) => {
                 {/* Action Button */}
                 <Button
                   onClick={() => onScenarioSelect(scenario)}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold transition-all duration-200"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold transition-all duration-200 transform hover:scale-105"
                 >
                   <Play className="h-4 w-4 mr-2" />
                   Try This Scenario
@@ -175,12 +175,12 @@ const Scenarios = ({ onScenarioSelect }) => {
 
       {/* No Results */}
       {filteredScenarios.length === 0 && (
-        <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
           <CardContent className="py-12">
             <div className="text-center">
-              <Target className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No Scenarios Found</h3>
-              <p className="text-gray-600">
+              <Target className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-foreground mb-2">No Scenarios Found</h3>
+              <p className="text-muted-foreground">
                 Try adjusting your search terms or category filters
               </p>
             </div>
@@ -189,9 +189,9 @@ const Scenarios = ({ onScenarioSelect }) => {
       )}
 
       {/* Fun Facts */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">
+          <CardTitle className="text-xl font-semibold text-foreground">
             💡 Did You Know?
           </CardTitle>
         </CardHeader>
@@ -199,15 +199,15 @@ const Scenarios = ({ onScenarioSelect }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
               <div className="text-2xl font-bold text-blue-600">10,000</div>
-              <div className="text-sm text-gray-600">BTC spent on two pizzas in 2010</div>
+              <div className="text-sm text-muted-foreground">BTC spent on two pizzas in 2010</div>
             </div>
             <div className="text-center p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
               <div className="text-2xl font-bold text-green-600">$1M</div>
-              <div className="text-sm text-gray-600">Netflix stock bought in 2002</div>
+              <div className="text-sm text-muted-foreground">Netflix stock bought in 2002</div>
             </div>
             <div className="text-center p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
               <div className="text-2xl font-bold text-purple-600">32x</div>
-              <div className="text-sm text-gray-600">Apple's return since 2010</div>
+              <div className="text-sm text-muted-foreground">Apple's return since 2010</div>
             </div>
           </div>
         </CardContent>

@@ -301,7 +301,7 @@ const AdvancedCalculator = () => {
       heightLeft -= pageHeight;
     }
     
-    pdf.save('contrafactum-investment-analysis.pdf');
+    pdf.save('uchrono-investment-analysis.pdf');
     toast.success('PDF exported successfully!');
   };
 
@@ -311,7 +311,7 @@ const AdvancedCalculator = () => {
     
     const canvas = await html2canvas(element);
     const link = document.createElement('a');
-    link.download = 'contrafactum-investment-analysis.png';
+    link.download = 'uchrono-investment-analysis.png';
     link.href = canvas.toDataURL();
     link.click();
     toast.success('PNG exported successfully!');
@@ -336,21 +336,21 @@ const AdvancedCalculator = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
+        <CardHeader className="text-center pb-6">
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Advanced Portfolio Calculator
           </CardTitle>
-          <p className="text-gray-600 mt-2">
+          <p className="text-muted-foreground mt-2">
             Multi-asset investment strategies with advanced analytics
           </p>
         </CardHeader>
       </Card>
 
       {/* Asset Selection */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">
+          <CardTitle className="text-xl font-semibold text-foreground">
             Asset Selection
           </CardTitle>
         </CardHeader>
@@ -358,7 +358,7 @@ const AdvancedCalculator = () => {
           {/* Selected Assets */}
           {selectedAssets.length > 0 && (
             <div className="space-y-2">
-              <Label className="text-sm font-semibold text-gray-700">Selected Assets</Label>
+              <Label className="text-sm font-semibold text-foreground">Selected Assets</Label>
               <div className="flex flex-wrap gap-2">
                 {selectedAssets.map(asset => (
                   <Badge
@@ -385,7 +385,7 @@ const AdvancedCalculator = () => {
           <div className="space-y-4">
             {Object.entries(assetCategories).map(([category, assets]) => (
               <div key={category}>
-                <Label className="text-sm font-semibold text-gray-700 capitalize mb-2 block">
+                <Label className="text-sm font-semibold text-foreground capitalize mb-2 block">
                   {category === 'stock' ? 'Stocks' : category === 'crypto' ? 'Cryptocurrencies' : 'Commodities & Indices'}
                 </Label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -396,7 +396,7 @@ const AdvancedCalculator = () => {
                       size="sm"
                       onClick={() => addAsset(asset)}
                       disabled={selectedAssets.find(a => a.id === asset.id)}
-                      className="flex items-center space-x-2 justify-start h-auto py-3"
+                      className="flex items-center space-x-2 justify-start h-auto py-3 border-2 border-border focus:border-blue-500"
                     >
                       <div 
                         className="w-6 h-6 rounded-lg flex items-center justify-center text-white font-bold text-xs"
@@ -406,7 +406,7 @@ const AdvancedCalculator = () => {
                       </div>
                       <div className="text-left">
                         <div className="font-medium text-xs">{asset.name}</div>
-                        <div className="text-xs text-gray-500">{asset.symbol}</div>
+                        <div className="text-xs text-muted-foreground">{asset.symbol}</div>
                       </div>
                     </Button>
                   ))}
@@ -418,9 +418,9 @@ const AdvancedCalculator = () => {
       </Card>
 
       {/* Strategy Configuration */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-900">
+          <CardTitle className="text-xl font-semibold text-foreground">
             Strategy Configuration
           </CardTitle>
         </CardHeader>
@@ -445,22 +445,22 @@ const AdvancedCalculator = () => {
               <TabsContent value="single" className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="singleAmount">Investment Amount ($)</Label>
+                    <Label htmlFor="singleAmount" className="text-sm font-semibold text-foreground">Investment Amount ($)</Label>
                     <Input
                       id="singleAmount"
                       type="number"
                       {...register('singleInvestment.amount', { required: true, min: 1 })}
                       placeholder="1000"
-                      className="h-12"
+                      className="h-12 border-2 border-border focus:border-blue-500"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="singleDate">Investment Date</Label>
+                    <Label htmlFor="singleDate" className="text-sm font-semibold text-foreground">Investment Date</Label>
                     <Input
                       id="singleDate"
                       type="date"
                       {...register('singleInvestment.date', { required: true })}
-                      className="h-12"
+                      className="h-12 border-2 border-border focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -469,22 +469,22 @@ const AdvancedCalculator = () => {
               <TabsContent value="dca" className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="dcaAmount">Amount per Investment ($)</Label>
+                    <Label htmlFor="dcaAmount" className="text-sm font-semibold text-foreground">Amount per Investment ($)</Label>
                     <Input
                       id="dcaAmount"
                       type="number"
                       {...register('dcaStrategy.amount', { required: true, min: 1 })}
                       placeholder="100"
-                      className="h-12"
+                      className="h-12 border-2 border-border focus:border-blue-500"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="dcaFrequency">Frequency</Label>
+                    <Label htmlFor="dcaFrequency" className="text-sm font-semibold text-foreground">Frequency</Label>
                     <Select 
                       value={formData.dcaStrategy?.frequency} 
                       onValueChange={(value) => setValue('dcaStrategy.frequency', value)}
                     >
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-12 border-2 border-border focus:border-blue-500">
                         <SelectValue placeholder="Select frequency" />
                       </SelectTrigger>
                       <SelectContent>
@@ -494,21 +494,21 @@ const AdvancedCalculator = () => {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="dcaStartDate">Start Date</Label>
+                    <Label htmlFor="dcaStartDate" className="text-sm font-semibold text-foreground">Start Date</Label>
                     <Input
                       id="dcaStartDate"
                       type="date"
                       {...register('dcaStrategy.startDate', { required: true })}
-                      className="h-12"
+                      className="h-12 border-2 border-border focus:border-blue-500"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="dcaEndDate">End Date</Label>
+                    <Label htmlFor="dcaEndDate" className="text-sm font-semibold text-foreground">End Date</Label>
                     <Input
                       id="dcaEndDate"
                       type="date"
                       {...register('dcaStrategy.endDate', { required: true })}
-                      className="h-12"
+                      className="h-12 border-2 border-border focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -517,7 +517,7 @@ const AdvancedCalculator = () => {
               <TabsContent value="stepped" className="space-y-4">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <Label className="text-lg font-semibold">Investment Schedule</Label>
+                    <Label className="text-lg font-semibold text-foreground">Investment Schedule</Label>
                     <Button
                       type="button"
                       onClick={() => append({ date: '', amount: 1000 })}
@@ -531,24 +531,24 @@ const AdvancedCalculator = () => {
                   
                   <div className="space-y-3">
                     {fields.map((field, index) => (
-                      <div key={field.id} className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                      <div key={field.id} className="flex items-center space-x-3 p-4 bg-muted/50 rounded-lg">
                         <div className="flex-1">
-                          <Label htmlFor={`date-${index}`} className="text-sm">Date</Label>
+                          <Label htmlFor={`date-${index}`} className="text-sm text-foreground">Date</Label>
                           <Input
                             id={`date-${index}`}
                             type="date"
                             {...register(`steppedStrategy.investments.${index}.date`, { required: true })}
-                            className="mt-1"
+                            className="mt-1 border-2 border-border focus:border-blue-500"
                           />
                         </div>
                         <div className="flex-1">
-                          <Label htmlFor={`amount-${index}`} className="text-sm">Amount ($)</Label>
+                          <Label htmlFor={`amount-${index}`} className="text-sm text-foreground">Amount ($)</Label>
                           <Input
                             id={`amount-${index}`}
                             type="number"
                             {...register(`steppedStrategy.investments.${index}.amount`, { required: true, min: 1 })}
                             placeholder="1000"
-                            className="mt-1"
+                            className="mt-1 border-2 border-border focus:border-blue-500"
                           />
                         </div>
                         <Button
@@ -571,7 +571,7 @@ const AdvancedCalculator = () => {
             <Button 
               type="submit" 
               disabled={loading || selectedAssets.length === 0}
-              className="w-full h-12 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold text-lg"
+              className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-lg transition-all duration-200 transform hover:scale-105"
             >
               {loading ? 'Calculating Portfolio...' : 'Calculate Portfolio'}
             </Button>
@@ -583,10 +583,10 @@ const AdvancedCalculator = () => {
       {results && (
         <div id="results-panel" className="space-y-8">
           {/* Portfolio Overview */}
-          <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+          <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-2xl font-bold text-gray-900">
+                <CardTitle className="text-2xl font-bold text-foreground">
                   Portfolio Results
                 </CardTitle>
                 <div className="flex space-x-2">
@@ -607,15 +607,15 @@ const AdvancedCalculator = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="text-center p-6 bg-blue-50 rounded-xl">
-                  <div className="text-2xl font-bold text-blue-600">
+                <div className="text-center p-6 bg-gray-50 rounded-xl">
+                  <div className="text-2xl font-bold text-gray-900">
                     ${results.totalInvested.toFixed(2)}
                   </div>
                   <div className="text-sm text-gray-600 mt-1">Total Invested</div>
                 </div>
                 
-                <div className="text-center p-6 bg-green-50 rounded-xl">
-                  <div className="text-2xl font-bold text-green-600">
+                <div className="text-center p-6 bg-blue-50 rounded-xl">
+                  <div className="text-2xl font-bold text-blue-600">
                     ${results.totalPortfolioValue.toFixed(2)}
                   </div>
                   <div className="text-sm text-gray-600 mt-1">Portfolio Value</div>
@@ -651,16 +651,16 @@ const AdvancedCalculator = () => {
           </Card>
 
           {/* Individual Asset Performance */}
-          <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+          <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
             <CardHeader>
-              <CardTitle className="text-xl font-semibold text-gray-900">
+              <CardTitle className="text-xl font-semibold text-foreground">
                 Asset Performance
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {results.portfolioResults.map((result, index) => (
-                  <div key={index} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                  <div key={index} className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
                     <div 
                       className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold"
                       style={{ backgroundColor: result.asset.color }}
@@ -669,23 +669,23 @@ const AdvancedCalculator = () => {
                     </div>
                     
                     <div className="flex-1">
-                      <div className="font-semibold text-gray-900">{result.asset.name}</div>
-                      <div className="text-sm text-gray-600">{result.asset.symbol}</div>
+                      <div className="font-semibold text-foreground">{result.asset.name}</div>
+                      <div className="text-sm text-muted-foreground">{result.asset.symbol}</div>
                     </div>
                     
                     <div className="grid grid-cols-4 gap-4 text-center">
                       <div>
-                        <div className="text-lg font-bold text-gray-900">
+                        <div className="text-lg font-bold text-foreground">
                           ${result.initialInvestment.toFixed(2)}
                         </div>
-                        <div className="text-xs text-gray-600">Invested</div>
+                        <div className="text-xs text-muted-foreground">Invested</div>
                       </div>
                       
                       <div>
                         <div className="text-lg font-bold text-blue-600">
                           ${result.finalValue.toFixed(2)}
                         </div>
-                        <div className="text-xs text-gray-600">Value</div>
+                        <div className="text-xs text-muted-foreground">Value</div>
                       </div>
                       
                       <div>
@@ -694,14 +694,14 @@ const AdvancedCalculator = () => {
                         }`}>
                           {result.totalReturn > 0 ? '+' : ''}{result.totalReturn.toFixed(1)}%
                         </div>
-                        <div className="text-xs text-gray-600">Return</div>
+                        <div className="text-xs text-muted-foreground">Return</div>
                       </div>
                       
                       <div>
                         <div className="text-lg font-bold text-purple-600">
                           {result.cagr.toFixed(1)}%
                         </div>
-                        <div className="text-xs text-gray-600">CAGR</div>
+                        <div className="text-xs text-muted-foreground">CAGR</div>
                       </div>
                     </div>
                   </div>
@@ -711,9 +711,9 @@ const AdvancedCalculator = () => {
           </Card>
 
           {/* Advanced Metrics */}
-          <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+          <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
             <CardHeader>
-              <CardTitle className="text-xl font-semibold text-gray-900">
+              <CardTitle className="text-xl font-semibold text-foreground">
                 Advanced Metrics
               </CardTitle>
             </CardHeader>
@@ -728,20 +728,20 @@ const AdvancedCalculator = () => {
                       >
                         {result.asset.icon}
                       </div>
-                      <span className="font-semibold">{result.asset.name}</span>
+                      <span className="font-semibold text-foreground">{result.asset.name}</span>
                     </div>
                     
                     <div className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">Sharpe Ratio</span>
-                        <span className="font-semibold">{result.sharpeRatio.toFixed(2)}</span>
+                        <span className="text-sm text-muted-foreground">Sharpe Ratio</span>
+                        <span className="font-semibold text-foreground">{result.sharpeRatio.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">Max Drawdown</span>
+                        <span className="text-sm text-muted-foreground">Max Drawdown</span>
                         <span className="font-semibold text-red-600">-{result.maxDrawdown.toFixed(1)}%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">CAGR</span>
+                        <span className="text-sm text-muted-foreground">CAGR</span>
                         <span className="font-semibold text-green-600">{result.cagr.toFixed(1)}%</span>
                       </div>
                     </div>
@@ -753,9 +753,9 @@ const AdvancedCalculator = () => {
 
           {/* Equivalents Section */}
           {results.totalPortfolioValue > results.totalInvested && (
-            <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+            <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
               <CardHeader>
-                <CardTitle className="text-xl font-semibold text-gray-900">
+                <CardTitle className="text-xl font-semibold text-foreground">
                   Your Profit Could Buy
                 </CardTitle>
               </CardHeader>
@@ -767,10 +767,10 @@ const AdvancedCalculator = () => {
                     <div key={index} className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
                       <div className="text-2xl">{equiv.icon}</div>
                       <div>
-                        <div className="font-semibold text-gray-900">
+                        <div className="font-semibold text-foreground">
                           {equiv.quantity} {equiv.item}{equiv.quantity > 1 ? 's' : ''}
                         </div>
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-muted-foreground">
                           ${equiv.price.toLocaleString()} each
                         </div>
                       </div>

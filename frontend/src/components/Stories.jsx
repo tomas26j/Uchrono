@@ -90,12 +90,12 @@ const Stories = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
+        <CardHeader className="text-center pb-6">
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
             Investment Stories
           </CardTitle>
-          <p className="text-gray-600 mt-2">
+          <p className="text-muted-foreground mt-2">
             Learn from history's greatest investment successes, failures, and lessons
           </p>
         </CardHeader>
@@ -104,12 +104,12 @@ const Stories = () => {
       {/* Search and Filters */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Search stories..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500"
+            className="pl-10 h-12 border-2 border-border focus:border-blue-500"
           />
         </div>
         
@@ -120,7 +120,7 @@ const Stories = () => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
             >
               <span>{category.icon}</span>
               <span>{category.label}</span>
@@ -132,13 +132,13 @@ const Stories = () => {
       {/* Stories Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {displayStories.map((story) => (
-          <Card key={story.id} className="backdrop-blur-sm bg-white/90 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+          <Card key={story.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex items-center space-x-3">
                   {getCategoryIcon(story.category)}
                   <div>
-                    <CardTitle className="text-lg font-bold text-gray-900 leading-tight">
+                    <CardTitle className="text-lg font-bold text-foreground leading-tight">
                       {story.title}
                     </CardTitle>
                     <Badge className={`mt-2 ${getCategoryColor(story.category)}`}>
@@ -151,19 +151,19 @@ const Stories = () => {
             
             <CardContent className="space-y-4">
               {/* Story Content */}
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-gray-700 leading-relaxed">
+              <div className="bg-muted/50 p-4 rounded-lg">
+                <p className="text-darkgray leading-relaxed">
                   {story.content}
                 </p>
               </div>
 
               {/* Lesson */}
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg border-l-4 border-blue-500">
-                <h4 className="font-semibold text-gray-900 mb-2 flex items-center space-x-2">
+              <div className="text-black bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg border-l-4 border-blue-500">
+                <h4 className="text-black font-semibold mb-2 flex items-center space-x-2 ">
                   <span>💡</span>
                   <span>Key Lesson</span>
                 </h4>
-                <p className="text-sm text-gray-700 font-medium">
+                <p className="text-black text-sm font-medium">
                   {story.lesson}
                 </p>
               </div>
@@ -171,7 +171,7 @@ const Stories = () => {
               {/* Asset Type */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-600">Asset Type:</span>
+                  <span className="text-sm text-muted-foreground">Asset Type:</span>
                   <Badge variant="outline">{story.asset}</Badge>
                 </div>
                 <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-800">
@@ -186,12 +186,12 @@ const Stories = () => {
 
       {/* No Results */}
       {displayStories.length === 0 && (
-        <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
           <CardContent className="py-12">
             <div className="text-center">
-              <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No Stories Found</h3>
-              <p className="text-gray-600">
+              <BookOpen className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-foreground mb-2">No Stories Found</h3>
+              <p className="text-muted-foreground">
                 Try adjusting your search terms or category filters
               </p>
             </div>
@@ -200,53 +200,53 @@ const Stories = () => {
       )}
 
       {/* Featured Quote */}
-      <Card className="backdrop-blur-sm bg-gradient-to-r from-blue-50 to-purple-50 border-0 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-gradient-to-r from-blue-50 to-purple-50 border-border shadow-2xl">
         <CardContent className="py-8">
           <div className="text-center">
             <div className="text-4xl mb-4">💭</div>
-            <blockquote className="text-xl font-medium text-gray-900 mb-4">
+            <blockquote className="text-black text-xl font-medium text-foreground mb-4">
               "The stock market is a device for transferring money from the impatient to the patient."
             </blockquote>
-            <cite className="text-gray-600 font-semibold">— Warren Buffett</cite>
+            <cite className="text-black text-muted-foreground font-semibold">— Warren Buffett</cite>
           </div>
         </CardContent>
       </Card>
 
       {/* Story Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-blue-600">
               {displayStories.length}
             </div>
-            <div className="text-sm text-gray-600">Stories Available</div>
+            <div className="text-sm text-muted-foreground">Stories Available</div>
           </CardContent>
         </Card>
 
-        <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-green-600">
               {displayStories.filter(s => s.category === 'legendary').length}
             </div>
-            <div className="text-sm text-gray-600">Success Stories</div>
+            <div className="text-sm text-muted-foreground">Success Stories</div>
           </CardContent>
         </Card>
 
-        <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-orange-600">
               {displayStories.filter(s => s.category === 'cautionary').length}
             </div>
-            <div className="text-sm text-gray-600">Cautionary Tales</div>
+            <div className="text-sm text-muted-foreground">Cautionary Tales</div>
           </CardContent>
         </Card>
 
-        <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-red-600">
               {displayStories.filter(s => s.category === 'missed-opportunity').length}
             </div>
-            <div className="text-sm text-gray-600">Missed Opportunities</div>
+            <div className="text-sm text-muted-foreground">Missed Opportunities</div>
           </CardContent>
         </Card>
       </div>

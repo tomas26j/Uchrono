@@ -52,13 +52,11 @@ const MainCalculator = ({ onResult, initialData }) => {
     
     try {
       const asset = ASSETS.find(a => a.id === selectedAsset);
-      let priceData = [];
-      if (asset.category === 'stock') {
-        // Usar Alpha Vantage para acciones
-        priceData = await fetchStockHistory(asset.symbol, buyDate, sellDate);
-      } else {
-        // Usar mock para otros activos
+      let priceData = await fetchStockHistory(asset.symbol || asset.id, buyDate, sellDate);
+      let usedMock = false;
+      if (!priceData || priceData.length === 0) {
         priceData = generateMockPriceData(selectedAsset, buyDate, sellDate);
+        usedMock = true;
       }
 
       const buyPrice = priceData.find(p => p.date === buyDate)?.price || priceData[0]?.price;
@@ -82,7 +80,8 @@ const MainCalculator = ({ onResult, initialData }) => {
         gain,
         percentageGain,
         priceData,
-        scenario: initialData?.scenario || null
+        scenario: initialData?.scenario || null,
+        usedMock // <-- flag para advertencia
       };
       
       setResult(calculationResult);
@@ -99,7 +98,7 @@ const MainCalculator = ({ onResult, initialData }) => {
   const shareResult = () => {
     if (!result) return;
     
-    const text = `I just calculated: $${result.amount} in ${result.assetInfo.name} (${result.buyDate}) would be worth $${result.finalValue.toFixed(2)} today! That's a ${result.percentageGain.toFixed(1)}% ${result.gain > 0 ? 'gain' : 'loss'}! 🚀\n\nTry it yourself at Contrafactum!`;
+    const text = `I just calculated: $${result.amount} in ${result.assetInfo.name} (${result.buyDate}) would be worth $${result.finalValue.toFixed(2)} today! That's a ${result.percentageGain.toFixed(1)}% ${result.gain > 0 ? 'gain' : 'loss'}! 🚀\n\nTry it yourself at Uchrono!`;
     
     navigator.clipboard.writeText(text);
     toast.success('Result copied to clipboard!');

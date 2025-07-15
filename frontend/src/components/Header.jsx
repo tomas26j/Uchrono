@@ -7,11 +7,9 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-xl">C</span>
-              </div>
+              <img src="/logo.png" alt="Uchrono Logo" className="w-10 h-10 rounded-xl object-contain bg-white" />
               <div>
-                <h1 className="text-2xl font-bold text-foreground">Contrafactum</h1>
+                <h1 className="text-2xl font-bold text-foreground">Uchrono</h1>
                 <p className="text-sm text-muted-foreground">What could have been, what you can learn</p>
               </div>
             </div>

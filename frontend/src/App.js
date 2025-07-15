@@ -122,7 +122,7 @@ function App() {
         <footer className="bg-card text-foreground py-12 mt-16 border-t border-border">
           <div className="max-w-6xl mx-auto px-4">
             <div className="text-center">
-              <h3 className="text-2xl font-bold mb-4">Contrafactum</h3>
+              <h3 className="text-2xl font-bold mb-4">Uchrono</h3>
               <p className="text-muted-foreground text-lg mb-6">
                 What could have been, what you can learn
               </p>
@@ -132,6 +132,9 @@ function App() {
                 <span>Past performance doesn't predict future results</span>
                 <span>•</span>
                 <span>Data provided by Alpha Vantage & CoinGecko</span>
+              </div>
+              <div className="mt-6 text-sm text-muted-foreground">
+                Developed by <a href="https://portfolio.tomasriera.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-semibold">Tomas Riera</a>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-// Mock data for Contrafactum - structured for future API integration
+// Mock data for Uchrono - structured for future API integration
 
 export const ASSETS = [
   // Cryptocurrencies
