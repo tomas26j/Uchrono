@@ -198,7 +198,7 @@ const Leaderboard = () => {
                   {/* Current Value */}
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">
-                      ${entry.value}
+                      ${entry.asset === 'dogecoin' ? entry.value.toFixed(4) : entry.value}
                     </div>
                     <div className="text-xs text-muted-foreground">Current</div>
                   </div>

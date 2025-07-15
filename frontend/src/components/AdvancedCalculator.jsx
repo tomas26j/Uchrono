@@ -24,6 +24,7 @@ import {
   DollarSign, Target, Activity, Calendar, X 
 } from 'lucide-react';
 import { ASSETS, generateMockPriceData } from '../data/mockData';
+import { fetchStockHistory } from '../lib/alphaVantage';
 import { toast } from 'sonner';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -92,18 +93,22 @@ const AdvancedCalculator = () => {
     setSelectedAssets(selectedAssets.filter(a => a.id !== assetId));
   };
 
-  const calculateSingleInvestment = (asset, amount, startDate, endDate) => {
-    const priceData = generateMockPriceData(asset.id, startDate, endDate);
+  // Cambiar funciones de cálculo a async y usar fetchStockHistory
+  const calculateSingleInvestment = async (asset, amount, startDate, endDate) => {
+    let priceData = await fetchStockHistory(asset.symbol || asset.id, startDate, endDate);
+    let usedMock = false;
+    if (!priceData || priceData.length === 0) {
+      priceData = generateMockPriceData(asset.id, startDate, endDate);
+      usedMock = true;
+    }
     const buyPrice = priceData[0]?.price || 1;
     const sellPrice = priceData[priceData.length - 1]?.price || 1;
     const shares = amount / buyPrice;
     const finalValue = shares * sellPrice;
     const totalReturn = ((finalValue - amount) / amount) * 100;
-    
     const days = Math.abs(new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
     const years = days / 365;
     const cagr = ((finalValue / amount) ** (1 / years) - 1) * 100;
-
     return {
       asset,
       initialInvestment: amount,
@@ -114,19 +119,23 @@ const AdvancedCalculator = () => {
       buyPrice,
       sellPrice,
       priceData,
-      maxDrawdown: Math.random() * 30, // Mock drawdown
-      sharpeRatio: 0.5 + Math.random() * 2 // Mock Sharpe ratio
+      usedMock,
+      maxDrawdown: Math.random() * 30,
+      sharpeRatio: 0.5 + Math.random() * 2
     };
   };
 
-  const calculateDCA = (asset, amount, frequency, startDate, endDate) => {
-    const priceData = generateMockPriceData(asset.id, startDate, endDate);
+  const calculateDCA = async (asset, amount, frequency, startDate, endDate) => {
+    let priceData = await fetchStockHistory(asset.symbol || asset.id, startDate, endDate);
+    let usedMock = false;
+    if (!priceData || priceData.length === 0) {
+      priceData = generateMockPriceData(asset.id, startDate, endDate);
+      usedMock = true;
+    }
     const frequencyDays = frequency === 'weekly' ? 7 : 30;
-    
     let totalShares = 0;
     let totalInvested = 0;
     const investments = [];
-
     for (let i = 0; i < priceData.length; i += frequencyDays) {
       if (priceData[i]) {
         const price = priceData[i].price;
@@ -141,15 +150,12 @@ const AdvancedCalculator = () => {
         });
       }
     }
-
     const finalPrice = priceData[priceData.length - 1]?.price || 1;
     const finalValue = totalShares * finalPrice;
     const totalReturn = ((finalValue - totalInvested) / totalInvested) * 100;
-    
     const days = Math.abs(new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
     const years = days / 365;
     const cagr = ((finalValue / totalInvested) ** (1 / years) - 1) * 100;
-
     return {
       asset,
       initialInvestment: totalInvested,
@@ -159,38 +165,37 @@ const AdvancedCalculator = () => {
       shares: totalShares,
       investments,
       priceData,
+      usedMock,
       maxDrawdown: Math.random() * 25,
       sharpeRatio: 0.8 + Math.random() * 1.5
     };
   };
 
-  const calculateSteppedStrategy = (asset, investments) => {
+  const calculateSteppedStrategy = async (asset, investments) => {
     if (!investments || investments.length === 0) return null;
-    
     const sortedInvestments = [...investments].sort((a, b) => new Date(a.date) - new Date(b.date));
     const startDate = sortedInvestments[0].date;
     const endDate = sortedInvestments[sortedInvestments.length - 1].date;
-    
-    const priceData = generateMockPriceData(asset.id, startDate, endDate);
-    
+    let priceData = await fetchStockHistory(asset.symbol || asset.id, startDate, endDate);
+    let usedMock = false;
+    if (!priceData || priceData.length === 0) {
+      priceData = generateMockPriceData(asset.id, startDate, endDate);
+      usedMock = true;
+    }
     let totalShares = 0;
     let totalInvested = 0;
-    
     sortedInvestments.forEach(investment => {
       const pricePoint = priceData.find(p => p.date === investment.date) || priceData[0];
       const shares = investment.amount / pricePoint.price;
       totalShares += shares;
       totalInvested += investment.amount;
     });
-
     const finalPrice = priceData[priceData.length - 1]?.price || 1;
     const finalValue = totalShares * finalPrice;
     const totalReturn = ((finalValue - totalInvested) / totalInvested) * 100;
-    
     const days = Math.abs(new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
     const years = days / 365;
     const cagr = ((finalValue / totalInvested) ** (1 / years) - 1) * 100;
-
     return {
       asset,
       initialInvestment: totalInvested,
@@ -200,74 +205,75 @@ const AdvancedCalculator = () => {
       shares: totalShares,
       investments: sortedInvestments,
       priceData,
+      usedMock,
       maxDrawdown: Math.random() * 35,
       sharpeRatio: 0.6 + Math.random() * 1.8
     };
   };
 
+  // Cambiar onSubmit para usar las funciones async
   const onSubmit = async (data) => {
     if (selectedAssets.length === 0) {
       toast.error('Please select at least one asset');
       return;
     }
-
     setLoading(true);
-    
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const calculatedResults = selectedAssets.map(asset => {
+      const calculatedResults = [];
+      for (const asset of selectedAssets) {
+        let result = null;
         switch (activeStrategy) {
           case 'single':
-            return calculateSingleInvestment(
+            result = await calculateSingleInvestment(
               asset,
               data.singleInvestment.amount,
               data.singleInvestment.date,
               '2024-01-01'
             );
+            break;
           case 'dca':
-            return calculateDCA(
+            result = await calculateDCA(
               asset,
               data.dcaStrategy.amount,
               data.dcaStrategy.frequency,
               data.dcaStrategy.startDate,
               data.dcaStrategy.endDate
             );
+            break;
           case 'stepped':
-            return calculateSteppedStrategy(asset, data.steppedStrategy.investments);
+            result = await calculateSteppedStrategy(asset, data.steppedStrategy.investments);
+            break;
           default:
-            return null;
+            break;
         }
-      }).filter(Boolean);
-
-      // Add benchmark calculations (S&P 500 and Gold)
+        if (result) calculatedResults.push(result);
+      }
+      // Benchmarks
       const sp500 = ASSETS.find(a => a.id === 'sp500');
       const gold = ASSETS.find(a => a.id === 'gold');
-      
       const benchmarks = [];
       if (sp500 && activeStrategy === 'single') {
         benchmarks.push({
-          ...calculateSingleInvestment(sp500, data.singleInvestment.amount, data.singleInvestment.date, '2024-01-01'),
+          ...(await calculateSingleInvestment(sp500, data.singleInvestment.amount, data.singleInvestment.date, '2024-01-01')),
           isBenchmark: true,
           benchmarkType: 'S&P 500'
         });
       }
       if (gold && activeStrategy === 'single') {
         benchmarks.push({
-          ...calculateSingleInvestment(gold, data.singleInvestment.amount, data.singleInvestment.date, '2024-01-01'),
+          ...(await calculateSingleInvestment(gold, data.singleInvestment.amount, data.singleInvestment.date, '2024-01-01')),
           isBenchmark: true,
           benchmarkType: 'Gold'
         });
       }
-
       setResults({
         portfolioResults: calculatedResults,
         benchmarks,
         strategy: activeStrategy,
-        totalPortfolioValue: calculatedResults.reduce((sum, r) => sum + r.finalValue, 0),
-        totalInvested: calculatedResults.reduce((sum, r) => sum + r.initialInvestment, 0)
+        totalPortfolioValue: Number(calculatedResults.reduce((sum, r) => sum + (typeof r.finalValue === 'number' ? r.finalValue : 0), 0)),
+        totalInvested: Number(calculatedResults.reduce((sum, r) => sum + (typeof r.initialInvestment === 'number' ? r.initialInvestment : 0), 0))
       });
-      
       toast.success('Portfolio calculated successfully!');
     } catch (error) {
       toast.error('Error calculating portfolio');
@@ -609,14 +615,14 @@ const AdvancedCalculator = () => {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="text-center p-6 bg-gray-50 rounded-xl">
                   <div className="text-2xl font-bold text-gray-900">
-                    ${results.totalInvested.toFixed(2)}
+                    ${typeof results.totalInvested === 'number' && !isNaN(results.totalInvested) ? results.totalInvested.toFixed(2) : '0.00'}
                   </div>
                   <div className="text-sm text-gray-600 mt-1">Total Invested</div>
                 </div>
                 
                 <div className="text-center p-6 bg-blue-50 rounded-xl">
                   <div className="text-2xl font-bold text-blue-600">
-                    ${results.totalPortfolioValue.toFixed(2)}
+                    ${typeof results.totalPortfolioValue === 'number' && !isNaN(results.totalPortfolioValue) ? results.totalPortfolioValue.toFixed(2) : '0.00'}
                   </div>
                   <div className="text-sm text-gray-600 mt-1">Portfolio Value</div>
                 </div>
@@ -634,7 +640,7 @@ const AdvancedCalculator = () => {
                     )}
                     <span>
                       {results.totalPortfolioValue > results.totalInvested ? '+' : ''}
-                      ${(results.totalPortfolioValue - results.totalInvested).toFixed(2)}
+                      {typeof results.totalPortfolioValue === 'number' && typeof results.totalInvested === 'number' && !isNaN(results.totalPortfolioValue - results.totalInvested) ? (results.totalPortfolioValue - results.totalInvested).toFixed(2) : '0.00'}
                     </span>
                   </div>
                   <div className="text-sm text-gray-600 mt-1">Total Gain/Loss</div>
@@ -642,7 +648,7 @@ const AdvancedCalculator = () => {
                 
                 <div className="text-center p-6 bg-purple-50 rounded-xl">
                   <div className="text-2xl font-bold text-purple-600">
-                    {(((results.totalPortfolioValue - results.totalInvested) / results.totalInvested) * 100).toFixed(1)}%
+                    {typeof results.totalPortfolioValue === 'number' && typeof results.totalInvested === 'number' && results.totalInvested !== 0 && !isNaN(results.totalPortfolioValue - results.totalInvested) ? (((results.totalPortfolioValue - results.totalInvested) / results.totalInvested) * 100).toFixed(1) : '0.0'}%
                   </div>
                   <div className="text-sm text-gray-600 mt-1">Total Return</div>
                 </div>
@@ -765,12 +771,12 @@ const AdvancedCalculator = () => {
                     .slice(0, 6)
                     .map((equiv, index) => (
                     <div key={index} className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-                      <div className="text-2xl">{equiv.icon}</div>
+                      <div className="text-2xl text-black">{equiv.icon}</div>
                       <div>
-                        <div className="font-semibold text-foreground">
+                        <div className="font-semibold text-black">
                           {equiv.quantity} {equiv.item}{equiv.quantity > 1 ? 's' : ''}
                         </div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-black">
                           ${equiv.price.toLocaleString()} each
                         </div>
                       </div>

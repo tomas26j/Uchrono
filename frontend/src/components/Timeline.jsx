@@ -300,19 +300,19 @@ const Timeline = ({ asset, calculatorData }) => {
             {/* Buy Event */}
             <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl">
               <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-white" />
+                <TrendingUp className="h-5 w-5 text-black" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-foreground">Purchase</div>
-                <div className="text-sm text-muted-foreground">
+                <div className="font-semibold text-black">Purchase</div>
+                <div className="text-sm text-black">
                   {formatDate(timelineData.buyDate)} • ${timelineData.amount} invested
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-foreground">
+                <div className="font-semibold text-black">
                   {formatPrice(timelineData.buyPrice)}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-black">
                   {timelineData.shares.toFixed(6)} shares
                 </div>
               </div>
@@ -321,19 +321,19 @@ const Timeline = ({ asset, calculatorData }) => {
             {/* Sell Event */}
             <div className="flex items-center space-x-4 p-4 bg-red-50 rounded-xl">
               <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                <TrendingDown className="h-5 w-5 text-white" />
+                <TrendingDown className="h-5 w-5 text-black" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-foreground">Sale</div>
-                <div className="text-sm text-muted-foreground">
+                <div className="font-semibold text-black">Sale</div>
+                <div className="text-sm text-black">
                   {formatDate(timelineData.sellDate)} • Portfolio liquidated
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-foreground">
+                <div className="font-semibold text-black">
                   {formatPrice(timelineData.sellPrice)}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-black">
                   ${timelineData.finalValue.toFixed(2)} total
                 </div>
               </div>

@@ -411,18 +411,18 @@ const MainCalculator = ({ onResult, initialData }) => {
                 </div>
                 <div className="text-sm text-gray-600 mt-1">Initial Investment</div>
                 <div className="text-xs text-gray-500 mt-2">
-                  {result.shares.toFixed(6)} shares at ${result.buyPrice.toFixed(2)}
+                  {result.shares.toFixed(6)} shares at ${result.asset === 'dogecoin' ? result.buyPrice.toFixed(4) : result.buyPrice.toFixed(2)}
                 </div>
               </div>
 
               {/* Final Value */}
               <div className="text-center p-6 bg-blue-50 rounded-xl">
                 <div className="text-2xl font-bold text-blue-600">
-                  ${result.finalValue.toFixed(2)}
+                  ${result.asset === 'dogecoin' ? result.finalValue.toFixed(4) : result.finalValue.toFixed(2)}
                 </div>
                 <div className="text-sm text-gray-600 mt-1">Current Value</div>
                 <div className="text-xs text-gray-500 mt-2">
-                  At ${result.sellPrice.toFixed(2)} per share
+                  At ${result.asset === 'dogecoin' ? result.sellPrice.toFixed(4) : result.sellPrice.toFixed(2)} per share
                 </div>
               </div>
 
@@ -438,7 +438,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   ) : (
                     <TrendingDown className="h-6 w-6" />
                   )}
-                  <span>{result.gain > 0 ? '+' : ''}${result.gain.toFixed(2)}</span>
+                  <span>{result.gain > 0 ? '+' : ''}${result.asset === 'dogecoin' ? result.gain.toFixed(4) : result.gain.toFixed(2)}</span>
                 </div>
                 <div className="text-sm text-gray-600 mt-1">
                   {result.gain > 0 ? 'Gain' : 'Loss'}
