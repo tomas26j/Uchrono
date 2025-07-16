@@ -204,10 +204,10 @@ const Stories = () => {
         <CardContent className="py-8">
           <div className="text-center">
             <div className="text-4xl mb-4">💭</div>
-            <blockquote className="text-black text-xl font-medium text-foreground mb-4">
+            <blockquote className="text-black text-xl font-medium mb-4">
               "The stock market is a device for transferring money from the impatient to the patient."
             </blockquote>
-            <cite className="text-black text-muted-foreground font-semibold">— Warren Buffett</cite>
+            <cite className="text-black text-gray font-semibold">— Warren Buffett</cite>
           </div>
         </CardContent>
       </Card>
