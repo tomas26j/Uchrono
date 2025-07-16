@@ -48,4 +48,41 @@ function parseCryptoCSV(text) {
 export async function getCryptoHistory(symbol, startDate, endDate) {
   const data = await loadCryptoData(symbol);
   return data.filter(item => item.date >= startDate && item.date <= endDate);
+}
+
+/**
+ * Obtiene datos históricos de una criptomoneda desde CoinGecko
+ * @param {string} symbol - 'BTC', 'ETH', 'DOGE'
+ * @param {string} startDate - Fecha de inicio (YYYY-MM-DD)
+ * @param {string} endDate - Fecha de fin (YYYY-MM-DD)
+ * @returns {Promise<Array<{date: string, price: number, volume: null}>>}
+ */
+export async function getCryptoHistoryCoinGecko(symbol, startDate, endDate) {
+  // Mapeo de símbolos a IDs de CoinGecko
+  const idMap = { BTC: 'bitcoin', ETH: 'ethereum', DOGE: 'dogecoin' };
+  const id = idMap[symbol];
+  if (!id) return [];
+  // CoinGecko solo permite rangos de fechas en timestamp (segundos)
+  const from = Math.floor(new Date(startDate).getTime() / 1000);
+  const to = Math.floor(new Date(endDate).getTime() / 1000);
+  const url = `https://api.coingecko.com/api/v3/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.prices) return [];
+    // CoinGecko devuelve precios como [timestamp, price]
+    // Agrupar por día y tomar el último precio de cada día
+    const dayMap = {};
+    data.prices.forEach(([ts, price]) => {
+      const date = new Date(ts).toISOString().split('T')[0];
+      dayMap[date] = price;
+    });
+    return Object.entries(dayMap)
+      .filter(([date]) => date >= startDate && date <= endDate)
+      .map(([date, price]) => ({ date, price: parseFloat(price), volume: null }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  } catch (e) {
+    console.warn('CoinGecko API error:', e);
+    return [];
+  }
 } 

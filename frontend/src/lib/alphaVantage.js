@@ -3,7 +3,7 @@
 
 import { getStockBackupHistory } from './stockBackup';
 import { getCommodityHistory } from './commodityBackup';
-import { getCryptoHistory } from './cryptoBackup';
+import { getCryptoHistory, getCryptoHistoryCoinGecko } from './cryptoBackup';
 
 const API_KEY = "HPWVZOIVS9XUBU6Y";
 const BASE_URL = "https://www.alphavantage.co/query";
@@ -53,22 +53,40 @@ export async function fetchStockHistory(symbol, startDate, endDate) {
     }
   }
 
-  // 3. Intentar datos de criptomonedas desde CSV
+  // 3. Intentar datos de criptomonedas desde CSV o CoinGecko
   if (["BTC", "ETH", "DOGE"].includes(symbol)) {
-    const cryptoData = await getCryptoHistory(symbol, startDate, endDate);
+    let cryptoData = await getCryptoHistory(symbol, startDate, endDate);
+    if (cryptoData && cryptoData.length > 0) {
+      return cryptoData;
+    }
+    // Fallback: CoinGecko
+    cryptoData = await getCryptoHistoryCoinGecko(symbol, startDate, endDate);
     if (cryptoData && cryptoData.length > 0) {
       return cryptoData;
     }
   }
 
-  // 4. Intentar API (descomentar para producción)
-  /*
+  // 4. Intentar API Alpha Vantage (solo para acciones y commodities)
   try {
-    // ... lógica de API original aquí ...
+    if (symbol && symbol.length > 1 && symbol !== 'GOLD' && symbol !== 'SPY') {
+      const url = `${BASE_URL}?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&apikey=${API_KEY}&outputsize=full`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data['Time Series (Daily)']) {
+        const all = Object.entries(data['Time Series (Daily)'])
+          .map(([date, values]) => ({
+            date,
+            price: parseFloat(values['5. adjusted close']),
+            volume: parseInt(values['6. volume'])
+          }))
+          .filter(item => item.date >= startDate && item.date <= endDate)
+          .sort((a, b) => a.date.localeCompare(b.date));
+        if (all.length > 0) return all;
+      }
+    }
   } catch (e) {
-    // Si la API falla, continuar a mock
+    console.warn('Alpha Vantage API error:', e);
   }
-  */
 
   // 5. Si no hay datos, devolver null (el componente usará mock y mostrará advertencia)
   return null;
