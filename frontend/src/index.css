@@ -2,59 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
-}
-
-
-
 @layer base {
   :root {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-        --radius: 0.5rem;
-    }
-}
+    /* Superficies */
+    --surface-base:        40 43% 99%;   /* #FDFCFA */
+    --surface-raised:       0  0% 100%;  /* #FFFFFF */
+    --surface-sunken:      43 24% 94%;   /* #F4F2ED */
+    /* Bordes */
+    --border-subtle:       40 19% 87%;   /* #E5E1D9 */
+    --border-interactive:  38  6% 51%;   /* #8A847A */
+    /* Texto */
+    --ink-primary:         36 10% 10%;   /* #1C1A17 */
+    --ink-secondary:       37  8% 33%;   /* #5A554D */
+    --ink-muted:           38  6% 51%;   /* #8A847A */
+    /* Acento y semánticos */
+    --accent:             175 66% 23%;   /* #14615A */
+    --accent-ink:           0  0% 100%;  /* #FFFFFF */
+    --gain:               152 39% 30%;   /* #2F6B4F */
+    --loss:                 4 51% 41%;   /* #9E3B33 */
+    /* Geometría */
+    --radius-sm:  6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+  }
 
+  .dark {
+    --surface-base:        40  9%  6%;   /* #12110F */
+    --surface-raised:      45  8%  9%;   /* #1A1916 */
+    --surface-sunken:      30  9%  4%;   /* #0C0B0A */
+    --border-subtle:       36  6% 15%;   /* #2A2825 */
+    --border-interactive:  34  6% 44%;   /* #78726A */
+    --ink-primary:         40 26% 93%;   /* #F2EFE9 */
+    --ink-secondary:       36  8% 63%;   /* #A9A39A */
+    --ink-muted:           34  6% 44%;   /* #78726A */
+    --accent:             171 37% 53%;   /* #5BB3A6 */
+    --accent-ink:         173 69%  8%;   /* #06211E */
+    --gain:               145 33% 57%;   /* #6FB68C */
+    --loss:                 5 56% 66%;   /* #D98078 */
+  }
 
+  body {
+    background: hsl(var(--surface-base));
+    color: hsl(var(--ink-primary));
+    font-family: "DM Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@layer base {
   * {
     @apply border-border;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
+  }
 }
