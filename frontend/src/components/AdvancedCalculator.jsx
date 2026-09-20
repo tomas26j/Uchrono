@@ -344,7 +344,7 @@ const AdvancedCalculator = () => {
       {/* Header */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-foreground">
             Advanced Portfolio Calculator
           </CardTitle>
           <p className="text-muted-foreground mt-2">
@@ -370,7 +370,7 @@ const AdvancedCalculator = () => {
                   <Badge
                     key={asset.id}
                     variant="secondary"
-                    className="flex items-center space-x-2 px-3 py-2 cursor-pointer hover:bg-red-100"
+                    className="flex items-center space-x-2 px-3 py-2 cursor-pointer hover:bg-loss/10"
                     onClick={() => removeAsset(asset.id)}
                   >
                     <div 
@@ -402,7 +402,7 @@ const AdvancedCalculator = () => {
                       size="sm"
                       onClick={() => addAsset(asset)}
                       disabled={selectedAssets.find(a => a.id === asset.id)}
-                      className="flex items-center space-x-2 justify-start h-auto py-3 border-2 border-border focus:border-blue-500"
+                      className="flex items-center space-x-2 justify-start h-auto py-3 border-2 border-border focus:border-primary"
                     >
                       <div 
                         className="w-6 h-6 rounded-lg flex items-center justify-center text-white font-bold text-xs"
@@ -457,7 +457,7 @@ const AdvancedCalculator = () => {
                       type="number"
                       {...register('singleInvestment.amount', { required: true, min: 1 })}
                       placeholder="1000"
-                      className="h-12 border-2 border-border focus:border-blue-500"
+                      className="h-12 border-2 border-border focus:border-primary"
                     />
                   </div>
                   <div className="space-y-2">
@@ -466,7 +466,7 @@ const AdvancedCalculator = () => {
                       id="singleDate"
                       type="date"
                       {...register('singleInvestment.date', { required: true })}
-                      className="h-12 border-2 border-border focus:border-blue-500"
+                      className="h-12 border-2 border-border focus:border-primary"
                     />
                   </div>
                 </div>
@@ -481,7 +481,7 @@ const AdvancedCalculator = () => {
                       type="number"
                       {...register('dcaStrategy.amount', { required: true, min: 1 })}
                       placeholder="100"
-                      className="h-12 border-2 border-border focus:border-blue-500"
+                      className="h-12 border-2 border-border focus:border-primary"
                     />
                   </div>
                   <div className="space-y-2">
@@ -490,7 +490,7 @@ const AdvancedCalculator = () => {
                       value={formData.dcaStrategy?.frequency} 
                       onValueChange={(value) => setValue('dcaStrategy.frequency', value)}
                     >
-                      <SelectTrigger className="h-12 border-2 border-border focus:border-blue-500">
+                      <SelectTrigger className="h-12 border-2 border-border focus:border-primary">
                         <SelectValue placeholder="Select frequency" />
                       </SelectTrigger>
                       <SelectContent>
@@ -505,7 +505,7 @@ const AdvancedCalculator = () => {
                       id="dcaStartDate"
                       type="date"
                       {...register('dcaStrategy.startDate', { required: true })}
-                      className="h-12 border-2 border-border focus:border-blue-500"
+                      className="h-12 border-2 border-border focus:border-primary"
                     />
                   </div>
                   <div className="space-y-2">
@@ -514,7 +514,7 @@ const AdvancedCalculator = () => {
                       id="dcaEndDate"
                       type="date"
                       {...register('dcaStrategy.endDate', { required: true })}
-                      className="h-12 border-2 border-border focus:border-blue-500"
+                      className="h-12 border-2 border-border focus:border-primary"
                     />
                   </div>
                 </div>
@@ -544,7 +544,7 @@ const AdvancedCalculator = () => {
                             id={`date-${index}`}
                             type="date"
                             {...register(`steppedStrategy.investments.${index}.date`, { required: true })}
-                            className="mt-1 border-2 border-border focus:border-blue-500"
+                            className="mt-1 border-2 border-border focus:border-primary"
                           />
                         </div>
                         <div className="flex-1">
@@ -554,7 +554,7 @@ const AdvancedCalculator = () => {
                             type="number"
                             {...register(`steppedStrategy.investments.${index}.amount`, { required: true, min: 1 })}
                             placeholder="1000"
-                            className="mt-1 border-2 border-border focus:border-blue-500"
+                            className="mt-1 border-2 border-border focus:border-primary"
                           />
                         </div>
                         <Button
@@ -577,7 +577,7 @@ const AdvancedCalculator = () => {
             <Button 
               type="submit" 
               disabled={loading || selectedAssets.length === 0}
-              className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-lg transition-all duration-200 transform hover:scale-105"
+              className="w-full h-12 bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90"
             >
               {loading ? 'Calculating Portfolio...' : 'Calculate Portfolio'}
             </Button>
@@ -613,25 +613,25 @@ const AdvancedCalculator = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="text-center p-6 bg-gray-50 rounded-xl">
-                  <div className="text-2xl font-bold text-gray-900">
+                <div className="text-center p-6 bg-muted rounded-xl">
+                  <div className="text-2xl font-bold text-foreground">
                     ${typeof results.totalInvested === 'number' && !isNaN(results.totalInvested) ? results.totalInvested.toFixed(2) : '0.00'}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Total Invested</div>
+                  <div className="text-sm text-muted-foreground mt-1">Total Invested</div>
                 </div>
                 
-                <div className="text-center p-6 bg-blue-50 rounded-xl">
-                  <div className="text-2xl font-bold text-blue-600">
+                <div className="text-center p-6 bg-muted rounded-xl">
+                  <div className="text-2xl font-bold text-primary">
                     ${typeof results.totalPortfolioValue === 'number' && !isNaN(results.totalPortfolioValue) ? results.totalPortfolioValue.toFixed(2) : '0.00'}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Portfolio Value</div>
+                  <div className="text-sm text-muted-foreground mt-1">Portfolio Value</div>
                 </div>
                 
                 <div className={`text-center p-6 rounded-xl ${
-                  results.totalPortfolioValue > results.totalInvested ? 'bg-green-50' : 'bg-red-50'
+                  results.totalPortfolioValue > results.totalInvested ? 'bg-gain/10' : 'bg-loss/10'
                 }`}>
                   <div className={`text-2xl font-bold flex items-center justify-center space-x-2 ${
-                    results.totalPortfolioValue > results.totalInvested ? 'text-green-600' : 'text-red-600'
+                    results.totalPortfolioValue > results.totalInvested ? 'text-gain' : 'text-loss'
                   }`}>
                     {results.totalPortfolioValue > results.totalInvested ? (
                       <TrendingUp className="h-6 w-6" />
@@ -643,14 +643,14 @@ const AdvancedCalculator = () => {
                       {typeof results.totalPortfolioValue === 'number' && typeof results.totalInvested === 'number' && !isNaN(results.totalPortfolioValue - results.totalInvested) ? (results.totalPortfolioValue - results.totalInvested).toFixed(2) : '0.00'}
                     </span>
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Total Gain/Loss</div>
+                  <div className="text-sm text-muted-foreground mt-1">Total Gain/Loss</div>
                 </div>
                 
-                <div className="text-center p-6 bg-purple-50 rounded-xl">
-                  <div className="text-2xl font-bold text-purple-600">
+                <div className="text-center p-6 bg-muted rounded-xl">
+                  <div className="text-2xl font-bold text-foreground">
                     {typeof results.totalPortfolioValue === 'number' && typeof results.totalInvested === 'number' && results.totalInvested !== 0 && !isNaN(results.totalPortfolioValue - results.totalInvested) ? (((results.totalPortfolioValue - results.totalInvested) / results.totalInvested) * 100).toFixed(1) : '0.0'}%
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Total Return</div>
+                  <div className="text-sm text-muted-foreground mt-1">Total Return</div>
                 </div>
               </div>
             </CardContent>
@@ -688,7 +688,7 @@ const AdvancedCalculator = () => {
                       </div>
                       
                       <div>
-                        <div className="text-lg font-bold text-blue-600">
+                        <div className="text-lg font-bold text-foreground">
                           ${result.finalValue.toFixed(2)}
                         </div>
                         <div className="text-xs text-muted-foreground">Value</div>
@@ -696,7 +696,7 @@ const AdvancedCalculator = () => {
                       
                       <div>
                         <div className={`text-lg font-bold ${
-                          result.totalReturn > 0 ? 'text-green-600' : 'text-red-600'
+                          result.totalReturn > 0 ? 'text-gain' : 'text-loss'
                         }`}>
                           {result.totalReturn > 0 ? '+' : ''}{result.totalReturn.toFixed(1)}%
                         </div>
@@ -704,7 +704,7 @@ const AdvancedCalculator = () => {
                       </div>
                       
                       <div>
-                        <div className="text-lg font-bold text-purple-600">
+                        <div className="text-lg font-bold text-foreground">
                           {result.cagr.toFixed(1)}%
                         </div>
                         <div className="text-xs text-muted-foreground">CAGR</div>
@@ -744,11 +744,11 @@ const AdvancedCalculator = () => {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">Max Drawdown</span>
-                        <span className="font-semibold text-red-600">-{result.maxDrawdown.toFixed(1)}%</span>
+                        <span className="font-semibold text-loss">-{result.maxDrawdown.toFixed(1)}%</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">CAGR</span>
-                        <span className="font-semibold text-green-600">{result.cagr.toFixed(1)}%</span>
+                        <span className="font-semibold text-gain">{result.cagr.toFixed(1)}%</span>
                       </div>
                     </div>
                   </div>
@@ -770,13 +770,13 @@ const AdvancedCalculator = () => {
                   {getEquivalents(results.totalPortfolioValue - results.totalInvested)
                     .slice(0, 6)
                     .map((equiv, index) => (
-                    <div key={index} className="flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
-                      <div className="text-2xl text-black">{equiv.icon}</div>
+                    <div key={index} className="flex items-center space-x-3 p-4 bg-muted rounded-xl">
+                      <div className="text-2xl text-foreground">{equiv.icon}</div>
                       <div>
-                        <div className="font-semibold text-black">
+                        <div className="font-semibold text-foreground">
                           {equiv.quantity} {equiv.item}{equiv.quantity > 1 ? 's' : ''}
                         </div>
-                        <div className="text-sm text-black">
+                        <div className="text-sm text-foreground">
                           ${equiv.price.toLocaleString()} each
                         </div>
                       </div>
