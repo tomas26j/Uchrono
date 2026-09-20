@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Input } from './ui/input';
-import { BookOpen, Search, TrendingUp, TrendingDown, AlertTriangle, Star, ExternalLink } from 'lucide-react';
+import { BookOpen, Search, TrendingUp, TrendingDown, AlertTriangle, Star, ExternalLink, Lightbulb } from 'lucide-react';
 import { INVESTMENT_STORIES, ASSETS } from '../data/mockData';
 
 const Stories = () => {
@@ -11,11 +11,11 @@ const Stories = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', label: 'All Stories', icon: '📚' },
-    { id: 'legendary', label: 'Legendary', icon: '🏆' },
-    { id: 'cautionary', label: 'Cautionary Tales', icon: '⚠️' },
-    { id: 'missed-opportunity', label: 'Missed Opportunities', icon: '😅' },
-    { id: 'innovation', label: 'Innovation', icon: '💡' }
+    { id: 'all',               label: 'All Stories' },
+    { id: 'legendary',         label: 'Legendary' },
+    { id: 'cautionary',        label: 'Cautionary Tales' },
+    { id: 'missed-opportunity', label: 'Missed Opportunities' },
+    { id: 'innovation',        label: 'Innovation' },
   ];
 
   const filteredStories = INVESTMENT_STORIES.filter(story => {
@@ -120,10 +120,9 @@ const Stories = () => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
+              className="border-2 border-border focus:border-primary"
             >
-              <span>{category.icon}</span>
-              <span>{category.label}</span>
+              {category.label}
             </Button>
           ))}
         </div>
@@ -160,7 +159,7 @@ const Stories = () => {
               {/* Lesson */}
               <div className="text-foreground bg-muted p-4 rounded-lg border-l-4 border-primary">
                 <h4 className="text-foreground font-semibold mb-2 flex items-center space-x-2">
-                  <span>💡</span>
+                  <Lightbulb className="h-5 w-5 text-primary" strokeWidth={1.75} />
                   <span>Key Lesson</span>
                 </h4>
                 <p className="text-foreground text-sm font-medium">
@@ -203,7 +202,6 @@ const Stories = () => {
       <Card className="backdrop-blur-sm bg-muted border-border shadow-2xl">
         <CardContent className="py-8">
           <div className="text-center">
-            <div className="text-4xl mb-4">💭</div>
             <blockquote className="text-foreground text-xl font-medium mb-4">
               "The stock market is a device for transferring money from the impatient to the patient."
             </blockquote>

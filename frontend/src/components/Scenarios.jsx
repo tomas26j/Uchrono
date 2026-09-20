@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Input } from './ui/input';
-import { Play, Search, TrendingUp, TrendingDown, Star, Clock, Target } from 'lucide-react';
+import { Play, Search, TrendingUp, TrendingDown, Star, Clock, Target, Lightbulb } from 'lucide-react';
 import { CURATED_SCENARIOS, ASSETS } from '../data/mockData';
 
 const Scenarios = ({ onScenarioSelect }) => {
@@ -11,11 +11,11 @@ const Scenarios = ({ onScenarioSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', label: 'All Scenarios', icon: '🎯' },
-    { id: 'legendary', label: 'Legendary', icon: '🏆' },
-    { id: 'crypto', label: 'Crypto', icon: '₿' },
-    { id: 'stocks', label: 'Stocks', icon: '📈' },
-    { id: 'missed', label: 'Missed Opportunities', icon: '😅' }
+    { id: 'all',       label: 'All Scenarios' },
+    { id: 'legendary', label: 'Legendary' },
+    { id: 'crypto',    label: 'Crypto' },
+    { id: 'stocks',    label: 'Stocks' },
+    { id: 'missed',    label: 'Missed Opportunities' },
   ];
 
   const filteredScenarios = CURATED_SCENARIOS.filter(scenario => {
@@ -70,10 +70,9 @@ const Scenarios = ({ onScenarioSelect }) => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
+              className="border-2 border-border focus:border-primary"
             >
-              <span>{category.icon}</span>
-              <span>{category.label}</span>
+              {category.label}
             </Button>
           ))}
         </div>
@@ -191,8 +190,9 @@ const Scenarios = ({ onScenarioSelect }) => {
       {/* Fun Facts */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-foreground">
-            💡 Did You Know?
+          <CardTitle className="text-xl font-semibold text-foreground flex items-center gap-2">
+            <Lightbulb className="h-5 w-5 text-primary" strokeWidth={1.75} />
+            Did You Know?
           </CardTitle>
         </CardHeader>
         <CardContent>

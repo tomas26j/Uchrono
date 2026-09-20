@@ -53,9 +53,9 @@ const Timeline = ({ asset, calculatorData }) => {
   }));
 
   const viewModes = [
-    { id: 'line', label: 'Line Chart', icon: '📈' },
-    { id: 'area', label: 'Area Chart', icon: '📊' },
-    { id: 'portfolio', label: 'Portfolio Value', icon: '💰' }
+    { id: 'line',      label: 'Line Chart' },
+    { id: 'area',      label: 'Area Chart' },
+    { id: 'portfolio', label: 'Portfolio Value' },
   ];
 
   const formatDate = (dateString) => {
@@ -121,10 +121,9 @@ const Timeline = ({ asset, calculatorData }) => {
             variant={viewMode === mode.id ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode(mode.id)}
-            className="flex items-center space-x-2 border-2 border-border focus:border-primary"
+            className="border-2 border-border focus:border-primary"
           >
-            <span>{mode.icon}</span>
-            <span>{mode.label}</span>
+            {mode.label}
           </Button>
         ))}
       </div>

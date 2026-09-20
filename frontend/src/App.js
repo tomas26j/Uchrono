@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Calculator, SlidersHorizontal, TrendingUp, GitBranch, Trophy, BookOpen, Lightbulb } from 'lucide-react';
 import './App.css';
 import { Toaster } from './components/ui/sonner';
 import Header from './components/Header';
@@ -42,13 +43,13 @@ function App() {
   };
 
   const sections = [
-    { id: 'calculator', title: 'Calculator', icon: '📊' },
-    { id: 'advanced', title: 'Advanced', icon: '🔬' },
-    { id: 'timeline', title: 'Timeline', icon: '📈' },
-    { id: 'scenarios', title: 'Scenarios', icon: '🎯' },
-    { id: 'leaderboard', title: 'Leaderboard', icon: '🏆' },
-    { id: 'stories', title: 'Stories', icon: '📚' },
-    { id: 'tips', title: 'Tips', icon: '💡' }
+    { id: 'calculator',  title: 'Calculator',  Icon: Calculator },
+    { id: 'advanced',    title: 'Advanced',    Icon: SlidersHorizontal },
+    { id: 'timeline',    title: 'Timeline',    Icon: TrendingUp },
+    { id: 'scenarios',   title: 'Scenarios',   Icon: GitBranch },
+    { id: 'leaderboard', title: 'Leaderboard', Icon: Trophy },
+    { id: 'stories',     title: 'Stories',     Icon: BookOpen },
+    { id: 'tips',        title: 'Tips',        Icon: Lightbulb },
   ];
 
   return (
@@ -58,11 +59,12 @@ function App() {
         
         {/* Daily Tip Banner */}
         {dailyTip && (
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 text-center">
-            <div className="max-w-6xl mx-auto">
-              <span className="font-semibold">💡 Daily Tip: </span>
-              <span className="font-medium">{dailyTip.title}</span>
-              <span className="hidden md:inline"> - {dailyTip.content}</span>
+          <div className="bg-muted border-b border-border py-3 px-4 text-center">
+            <div className="max-w-6xl mx-auto flex items-center justify-center gap-2">
+              <Lightbulb className="h-4 w-4 text-primary flex-shrink-0" strokeWidth={1.75} />
+              <span className="font-semibold text-foreground">Daily Tip: </span>
+              <span className="font-medium text-foreground">{dailyTip.title}</span>
+              <span className="hidden md:inline text-muted-foreground"> — {dailyTip.content}</span>
             </div>
           </div>
         )}
@@ -71,18 +73,18 @@ function App() {
         <nav className="bg-card shadow-sm border-b border-border sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex space-x-8 overflow-x-auto">
-              {sections.map((section) => (
+              {sections.map(({ id, title, Icon }) => (
                 <button
-                  key={section.id}
-                  onClick={() => setActiveSection(section.id)}
-                  className={`flex items-center space-x-2 py-4 px-2 border-b-2 transition-all duration-200 whitespace-nowrap ${
-                    activeSection === section.id
-                      ? 'border-blue-500 text-blue-400 font-semibold'
-                      : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted'
+                  key={id}
+                  onClick={() => setActiveSection(id)}
+                  className={`flex items-center gap-2 py-4 px-2 border-b-2 transition-colors duration-120 whitespace-nowrap ${
+                    activeSection === id
+                      ? 'border-primary text-primary font-semibold'
+                      : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
                   }`}
                 >
-                  <span className="text-lg">{section.icon}</span>
-                  <span className="font-medium">{section.title}</span>
+                  <Icon className="h-5 w-5" strokeWidth={1.75} />
+                  <span className="font-medium">{title}</span>
                 </button>
               ))}
             </div>
@@ -134,7 +136,7 @@ function App() {
                 <span>Data provided by Alpha Vantage & CoinGecko</span>
               </div>
               <div className="mt-6 text-sm text-muted-foreground">
-                Developed by <a href="https://portfolio.tomasriera.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-semibold">Tomas Riera</a>
+                Developed by <a href="https://portfolio.tomasriera.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-semibold">Tomas Riera</a>
               </div>
             </div>
           </div>

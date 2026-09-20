@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Input } from './ui/input';
-import { Lightbulb, Search, TrendingUp, DollarSign, Shield, BookOpen, RefreshCw, Share2 } from 'lucide-react';
+import { Lightbulb, Search, TrendingUp, DollarSign, Shield, BookOpen, RefreshCw, Share2, Sparkles } from 'lucide-react';
 import { DAILY_TIPS } from '../data/mockData';
 import { toast } from 'sonner';
 
@@ -13,11 +13,11 @@ const Tips = () => {
   const [tipOfTheDay, setTipOfTheDay] = useState(null);
 
   const categories = [
-    { id: 'all', label: 'All Tips', icon: '💡' },
-    { id: 'education', label: 'Education', icon: '📚' },
-    { id: 'strategy', label: 'Strategy', icon: '🎯' },
-    { id: 'risk-management', label: 'Risk Management', icon: '🛡️' },
-    { id: 'psychology', label: 'Psychology', icon: '🧠' }
+    { id: 'all',             label: 'All Tips' },
+    { id: 'education',       label: 'Education' },
+    { id: 'strategy',        label: 'Strategy' },
+    { id: 'risk-management', label: 'Risk Management' },
+    { id: 'psychology',      label: 'Psychology' },
   ];
 
   // Extended tips for more variety
@@ -91,7 +91,7 @@ const Tips = () => {
       case 'education': return <BookOpen className="h-5 w-5 text-primary" />;
       case 'strategy': return <TrendingUp className="h-5 w-5 text-gain" />;
       case 'risk-management': return <Shield className="h-5 w-5 text-loss" />;
-      case 'psychology': return <span className="text-primary">🧠</span>;
+      case 'psychology': return <Sparkles className="h-5 w-5 text-primary" strokeWidth={1.75} />;
       default: return <Lightbulb className="h-5 w-5 text-primary" />;
     }
   };
@@ -142,8 +142,9 @@ const Tips = () => {
                   <Lightbulb className="h-6 w-6 text-primary-foreground" />
                 </div>
                 <div>
-                  <CardTitle className="text-foreground text-xl font-bold">
-                    💡 Tip of the Day
+                  <CardTitle className="text-foreground text-xl font-bold flex items-center gap-2">
+                    <Lightbulb className="h-5 w-5 text-primary" strokeWidth={1.75} />
+                    Tip of the Day
                   </CardTitle>
                   <p className="text-foreground text-sm">Your daily dose of financial wisdom</p>
                 </div>
@@ -205,10 +206,9 @@ const Tips = () => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
+              className="border-2 border-border focus:border-primary"
             >
-              <span>{category.icon}</span>
-              <span>{category.label}</span>
+              {category.label}
             </Button>
           ))}
         </div>
@@ -290,13 +290,13 @@ const Tips = () => {
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
           <CardTitle className="text-xl font-semibold text-foreground">
-            📚 Educational Resources
+            Educational Resources
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-muted rounded-xl">
-              <h4 className="font-semibold text-foreground mb-2">📖 Recommended Books</h4>
+              <h4 className="font-semibold text-foreground mb-2">Recommended Books</h4>
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• "The Intelligent Investor" by Benjamin Graham</li>
                 <li>• "A Random Walk Down Wall Street" by Burton Malkiel</li>
@@ -304,7 +304,7 @@ const Tips = () => {
               </ul>
             </div>
             <div className="p-4 bg-gain/10 rounded-xl">
-              <h4 className="font-semibold text-gain mb-2">🎓 Key Concepts</h4>
+              <h4 className="font-semibold text-gain mb-2">Key Concepts</h4>
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• Compound Interest</li>
                 <li>• Asset Allocation</li>

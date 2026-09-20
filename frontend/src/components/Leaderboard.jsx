@@ -13,14 +13,14 @@ const Leaderboard = () => {
   const [loading, setLoading] = useState(false);
 
   const periods = [
-    { id: '1year', label: '1 Year', icon: '📅', years: 1 },
-    { id: '5years', label: '5 Years', icon: '🗓️', years: 5 },
-    { id: '10years', label: '10 Years', icon: '📊', years: 10 }
+    { id: '1year',   label: '1 Year',  years: 1 },
+    { id: '5years',  label: '5 Years', years: 5 },
+    { id: '10years', label: '10 Years', years: 10 },
   ];
 
   const viewModes = [
-    { id: 'winners', label: 'Top Winners', icon: '🏆' },
-    { id: 'losers', label: 'Biggest Losers', icon: '📉' }
+    { id: 'winners', label: 'Top Winners' },
+    { id: 'losers',  label: 'Biggest Losers' },
   ];
 
   useEffect(() => {
@@ -111,10 +111,9 @@ const Leaderboard = () => {
               variant={selectedPeriod === period.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedPeriod(period.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
+              className="border-2 border-border focus:border-primary"
             >
-              <span>{period.icon}</span>
-              <span>{period.label}</span>
+              {period.label}
             </Button>
           ))}
         </div>
@@ -127,10 +126,9 @@ const Leaderboard = () => {
               variant={viewMode === mode.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewMode(mode.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
+              className="border-2 border-border focus:border-primary"
             >
-              <span>{mode.icon}</span>
-              <span>{mode.label}</span>
+              {mode.label}
             </Button>
           ))}
         </div>

@@ -168,7 +168,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   onClick={() => setSelectedAsset('bitcoin')}
                   className="text-xs"
                 >
-                  ₿ Bitcoin
+                  Bitcoin
                 </Button>
                 <Button
                   type="button"
@@ -177,7 +177,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   onClick={() => setSelectedAsset('tesla')}
                   className="text-xs"
                 >
-                  🚗 Tesla
+                  Tesla
                 </Button>
                 <Button
                   type="button"
@@ -186,7 +186,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   onClick={() => setSelectedAsset('nvidia')}
                   className="text-xs"
                 >
-                  💻 NVIDIA
+                  NVIDIA
                 </Button>
                 <Button
                   type="button"
@@ -195,7 +195,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   onClick={() => setSelectedAsset('apple')}
                   className="text-xs"
                 >
-                  🍎 Apple
+                  Apple
                 </Button>
               </div>
             </div>
