@@ -93,7 +93,7 @@ const Timeline = ({ asset, calculatorData }) => {
                   {formatDate(timelineData.buyDate)} to {formatDate(timelineData.sellDate)}
                 </p>
                 {timelineData.usedMock && (
-                  <div className="mt-2 text-sm font-semibold text-yellow-600 bg-yellow-100 rounded px-2 py-1 inline-block shadow">
+                  <div className="mt-2 text-sm font-semibold text-primary bg-primary/10 rounded px-2 py-1 inline-block">
                     ADVERTENCIA: Se están usando datos simulados (mock) por falta de datos reales.
                   </div>
                 )}
@@ -104,7 +104,7 @@ const Timeline = ({ asset, calculatorData }) => {
                 ${timelineData.finalValue.toFixed(2)}
               </div>
               <div className={`text-sm font-semibold ${
-                timelineData.gain > 0 ? 'text-green-600' : 'text-red-600'
+                timelineData.gain > 0 ? 'text-gain' : 'text-loss'
               }`}>
                 {timelineData.gain > 0 ? '+' : ''}${timelineData.gain.toFixed(2)} ({timelineData.percentageGain.toFixed(1)}%)
               </div>
@@ -121,7 +121,7 @@ const Timeline = ({ asset, calculatorData }) => {
             variant={viewMode === mode.id ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode(mode.id)}
-            className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+            className="flex items-center space-x-2 border-2 border-border focus:border-primary"
           >
             <span>{mode.icon}</span>
             <span>{mode.label}</span>
@@ -143,7 +143,7 @@ const Timeline = ({ asset, calculatorData }) => {
               {/* Grid lines */}
               <defs>
                 <pattern id="grid" width="40" height="30" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 30" fill="none" stroke="#e5e7eb" strokeWidth="1"/>
+                  <path d="M 40 0 L 0 0 0 30" fill="none" stroke="#E5E1D9" strokeWidth="1"/>
                 </pattern>
               </defs>
               <rect width="800" height="300" fill="url(#grid)" />
@@ -179,11 +179,11 @@ const Timeline = ({ asset, calculatorData }) => {
                           textAnchor="middle"
                           fontSize="14"
                           fontWeight="bold"
-                          fill="#f3f4f6"
-                          stroke="#111827"
+                          fill="#1C1A17"
+                          stroke="#FDFCFA"
                           strokeWidth="0.7"
                           paintOrder="stroke"
-                          style={{filter: 'drop-shadow(0 1px 2px #0008)'}}
+                          style={{filter: 'drop-shadow(0 1px 2px #0004)'}}
                         >
                           {label}
                         </text>
@@ -193,7 +193,7 @@ const Timeline = ({ asset, calculatorData }) => {
                           y1={0}
                           x2={x}
                           y2={280}
-                          stroke="#f3f4f680"
+                          stroke="#E5E1D960"
                           strokeDasharray="4 4"
                           strokeWidth="1"
                         />
@@ -226,11 +226,11 @@ const Timeline = ({ asset, calculatorData }) => {
                     return `L ${x} ${y}`;
                   }).join(' ')}`}
                   fill="none"
-                  stroke="#f3f4f6"
+                  stroke={assetInfo.color}
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  style={{filter: 'drop-shadow(0 2px 4px #0006)'}}
+                  style={{filter: 'drop-shadow(0 2px 4px #0004)'}}
                 />
                 {/* Buy point */}
                 {buyPoint && (
@@ -239,8 +239,8 @@ const Timeline = ({ asset, calculatorData }) => {
                       cx={portfolioData.findIndex(p => p.date === buyPoint.date) / (portfolioData.length - 1) * 800}
                       cy={300 - ((buyPoint.price - minPrice) / priceRange * 250)}
                       r="7"
-                      fill="#10b981"
-                      stroke="#fff"
+                      fill="#2F6B4F"
+                      stroke="#FDFCFA"
                       strokeWidth="3"
                       style={{filter: 'drop-shadow(0 1px 2px #0008)'}}
                     />
@@ -253,8 +253,8 @@ const Timeline = ({ asset, calculatorData }) => {
                       cx={portfolioData.findIndex(p => p.date === sellPoint.date) / (portfolioData.length - 1) * 800}
                       cy={300 - ((sellPoint.price - minPrice) / priceRange * 250)}
                       r="7"
-                      fill="#ef4444"
-                      stroke="#fff"
+                      fill="#9E3B33"
+                      stroke="#FDFCFA"
                       strokeWidth="3"
                       style={{filter: 'drop-shadow(0 1px 2px #0008)'}}
                     />
@@ -298,42 +298,42 @@ const Timeline = ({ asset, calculatorData }) => {
         <CardContent>
           <div className="space-y-4">
             {/* Buy Event */}
-            <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl">
-              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-black" />
+            <div className="flex items-center space-x-4 p-4 bg-gain/10 rounded-xl">
+              <div className="w-10 h-10 bg-gain rounded-full flex items-center justify-center">
+                <TrendingUp className="h-5 w-5 text-foreground" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-black">Purchase</div>
-                <div className="text-sm text-black">
+                <div className="font-semibold text-foreground">Purchase</div>
+                <div className="text-sm text-foreground">
                   {formatDate(timelineData.buyDate)} • ${timelineData.amount} invested
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-black">
+                <div className="font-semibold text-foreground">
                   {formatPrice(timelineData.buyPrice)}
                 </div>
-                <div className="text-sm text-black">
+                <div className="text-sm text-foreground">
                   {timelineData.shares.toFixed(6)} shares
                 </div>
               </div>
             </div>
             
             {/* Sell Event */}
-            <div className="flex items-center space-x-4 p-4 bg-red-50 rounded-xl">
-              <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                <TrendingDown className="h-5 w-5 text-black" />
+            <div className="flex items-center space-x-4 p-4 bg-loss/10 rounded-xl">
+              <div className="w-10 h-10 bg-loss rounded-full flex items-center justify-center">
+                <TrendingDown className="h-5 w-5 text-foreground" />
               </div>
               <div className="flex-1">
-                <div className="font-semibold text-black">Sale</div>
-                <div className="text-sm text-black">
+                <div className="font-semibold text-foreground">Sale</div>
+                <div className="text-sm text-foreground">
                   {formatDate(timelineData.sellDate)} • Portfolio liquidated
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-semibold text-black">
+                <div className="font-semibold text-foreground">
                   {formatPrice(timelineData.sellPrice)}
                 </div>
-                <div className="text-sm text-black">
+                <div className="text-sm text-foreground">
                   ${timelineData.finalValue.toFixed(2)} total
                 </div>
               </div>
@@ -351,15 +351,15 @@ const Timeline = ({ asset, calculatorData }) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="text-center p-4 bg-blue-50 rounded-xl">
-              <div className="text-2xl font-bold text-blue-600">
+            <div className="text-center p-4 bg-muted rounded-xl">
+              <div className="text-2xl font-bold text-primary">
                 {Math.round((new Date(timelineData.sellDate) - new Date(timelineData.buyDate)) / (1000 * 60 * 60 * 24))}
               </div>
               <div className="text-sm text-muted-foreground">Days Held</div>
             </div>
             
-            <div className="text-center p-4 bg-purple-50 rounded-xl">
-              <div className="text-2xl font-bold text-purple-600">
+            <div className="text-center p-4 bg-muted rounded-xl">
+              <div className="text-2xl font-bold text-primary">
                 {(() => {
                   const daysHeld = Math.round((new Date(timelineData.sellDate) - new Date(timelineData.buyDate)) / (1000 * 60 * 60 * 24));
                   const annualReturn = ((timelineData.sellPrice / timelineData.buyPrice) ** (365 / daysHeld) - 1) * 100;
@@ -369,15 +369,15 @@ const Timeline = ({ asset, calculatorData }) => {
               <div className="text-sm text-muted-foreground">Annual Return</div>
             </div>
             
-            <div className="text-center p-4 bg-green-50 rounded-xl">
-              <div className="text-2xl font-bold text-green-600">
+            <div className="text-center p-4 bg-gain/10 rounded-xl">
+              <div className="text-2xl font-bold text-gain">
                 {formatPrice(maxPrice)}
               </div>
               <div className="text-sm text-muted-foreground">Peak Price</div>
             </div>
             
-            <div className="text-center p-4 bg-red-50 rounded-xl">
-              <div className="text-2xl font-bold text-red-600">
+            <div className="text-center p-4 bg-loss/10 rounded-xl">
+              <div className="text-2xl font-bold text-loss">
                 {formatPrice(minPrice)}
               </div>
               <div className="text-sm text-muted-foreground">Lowest Price</div>

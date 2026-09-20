@@ -115,7 +115,7 @@ const MainCalculator = ({ onResult, initialData }) => {
       {/* Calculator Form */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-foreground">
             Investment Calculator
           </CardTitle>
           <p className="text-muted-foreground mt-2">
@@ -130,7 +130,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                 Choose Asset
               </Label>
               <Select value={selectedAsset} onValueChange={setSelectedAsset}>
-                <SelectTrigger className="h-12 border-2 border-border focus:border-blue-500">
+                <SelectTrigger className="h-12 border-2 border-border focus:border-primary">
                   <SelectValue placeholder="Select an asset..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -213,7 +213,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   placeholder="1000"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="pl-10 h-12 border-2 border-border focus:border-blue-500"
+                  className="pl-10 h-12 border-2 border-border focus:border-primary"
                 />
               </div>
               {/* Quick Amount Buttons */}
@@ -269,7 +269,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   type="date"
                   value={buyDate}
                   onChange={(e) => setBuyDate(e.target.value)}
-                  className="pl-10 h-12 border-2 border-border focus:border-blue-500"
+                  className="pl-10 h-12 border-2 border-border focus:border-primary"
                   max="2024-01-01"
                 />
               </div>
@@ -329,7 +329,7 @@ const MainCalculator = ({ onResult, initialData }) => {
                   type="date"
                   value={sellDate}
                   onChange={(e) => setSellDate(e.target.value)}
-                  className="pl-10 h-12 border-2 border-border focus:border-blue-500"
+                  className="pl-10 h-12 border-2 border-border focus:border-primary"
                   max="2024-12-31"
                 />
               </div>
@@ -376,7 +376,7 @@ const MainCalculator = ({ onResult, initialData }) => {
           <Button 
             onClick={calculateInvestment} 
             disabled={loading}
-            className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold text-lg transition-all duration-200 transform hover:scale-105"
+            className="w-full h-12 bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90"
           >
             {loading ? 'Calculating...' : 'Calculate Investment'}
           </Button>
@@ -405,33 +405,33 @@ const MainCalculator = ({ onResult, initialData }) => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Initial Investment */}
-              <div className="text-center p-6 bg-gray-50 rounded-xl">
-                <div className="text-2xl font-bold text-gray-900">
+              <div className="text-center p-6 bg-muted rounded-xl">
+                <div className="text-2xl font-bold text-foreground">
                   ${result.amount.toFixed(2)}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Initial Investment</div>
-                <div className="text-xs text-gray-500 mt-2">
+                <div className="text-sm text-muted-foreground mt-1">Initial Investment</div>
+                <div className="text-xs text-muted-foreground mt-2">
                   {result.shares.toFixed(6)} shares at ${result.asset === 'dogecoin' ? result.buyPrice.toFixed(4) : result.buyPrice.toFixed(2)}
                 </div>
               </div>
 
               {/* Final Value */}
-              <div className="text-center p-6 bg-blue-50 rounded-xl">
-                <div className="text-2xl font-bold text-blue-600">
+              <div className="text-center p-6 bg-muted rounded-xl">
+                <div className="text-2xl font-bold text-primary">
                   ${result.asset === 'dogecoin' ? result.finalValue.toFixed(4) : result.finalValue.toFixed(2)}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Current Value</div>
-                <div className="text-xs text-gray-500 mt-2">
+                <div className="text-sm text-muted-foreground mt-1">Current Value</div>
+                <div className="text-xs text-muted-foreground mt-2">
                   At ${result.asset === 'dogecoin' ? result.sellPrice.toFixed(4) : result.sellPrice.toFixed(2)} per share
                 </div>
               </div>
 
               {/* Gain/Loss */}
               <div className={`text-center p-6 rounded-xl ${
-                result.gain > 0 ? 'bg-green-50' : 'bg-red-50'
+                result.gain > 0 ? 'bg-gain/10' : 'bg-loss/10'
               }`}>
                 <div className={`text-2xl font-bold flex items-center justify-center space-x-2 ${
-                  result.gain > 0 ? 'text-green-600' : 'text-red-600'
+                  result.gain > 0 ? 'text-gain' : 'text-loss'
                 }`}>
                   {result.gain > 0 ? (
                     <TrendingUp className="h-6 w-6" />
@@ -440,11 +440,11 @@ const MainCalculator = ({ onResult, initialData }) => {
                   )}
                   <span>{result.gain > 0 ? '+' : ''}${result.asset === 'dogecoin' ? result.gain.toFixed(4) : result.gain.toFixed(2)}</span>
                 </div>
-                <div className="text-sm text-gray-600 mt-1">
+                <div className="text-sm text-muted-foreground mt-1">
                   {result.gain > 0 ? 'Gain' : 'Loss'}
                 </div>
                 <div className={`text-xs mt-2 font-semibold ${
-                  result.gain > 0 ? 'text-green-600' : 'text-red-600'
+                  result.gain > 0 ? 'text-gain' : 'text-loss'
                 }`}>
                   {result.percentageGain > 0 ? '+' : ''}{result.percentageGain.toFixed(1)}%
                 </div>
@@ -453,18 +453,18 @@ const MainCalculator = ({ onResult, initialData }) => {
 
             {/* Scenario Story */}
             {result.scenario && (
-              <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-                <h4 className="font-semibold text-gray-900 mb-2">
+              <div className="mt-6 p-4 bg-muted rounded-xl">
+                <h4 className="font-semibold text-foreground mb-2">
                   {result.scenario.title}
                 </h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {result.scenario.story}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {result.scenario.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
+                      className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full"
                     >
                       {tag}
                     </span>

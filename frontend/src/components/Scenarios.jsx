@@ -42,7 +42,7 @@ const Scenarios = ({ onScenarioSelect }) => {
       {/* Header */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-foreground">
             Curated Scenarios
           </CardTitle>
           <p className="text-muted-foreground mt-2">
@@ -59,7 +59,7 @@ const Scenarios = ({ onScenarioSelect }) => {
             placeholder="Search scenarios..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-12 border-2 border-border focus:border-blue-500"
+            className="pl-10 h-12 border-2 border-border focus:border-primary"
           />
         </div>
         
@@ -70,7 +70,7 @@ const Scenarios = ({ onScenarioSelect }) => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
             >
               <span>{category.icon}</span>
               <span>{category.label}</span>
@@ -86,7 +86,7 @@ const Scenarios = ({ onScenarioSelect }) => {
           const result = calculateScenarioResult(scenario);
           
           return (
-            <Card key={scenario.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <Card key={scenario.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-shadow duration-200">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -103,7 +103,7 @@ const Scenarios = ({ onScenarioSelect }) => {
                     </div>
                   </div>
                   {scenario.tags.includes('legendary') && (
-                    <Star className="h-5 w-5 text-yellow-500 fill-current" />
+                    <Star className="h-5 w-5 text-primary fill-current" />
                   )}
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">
@@ -114,14 +114,14 @@ const Scenarios = ({ onScenarioSelect }) => {
               <CardContent className="space-y-4">
                 {/* Investment Details */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-3 bg-blue-50 rounded-lg">
-                    <div className="text-lg font-bold text-blue-600">
+                  <div className="text-center p-3 bg-muted rounded-lg">
+                    <div className="text-lg font-bold text-foreground">
                       ${scenario.amount}
                     </div>
                     <div className="text-xs text-muted-foreground">Investment</div>
                   </div>
-                  <div className="text-center p-3 bg-green-50 rounded-lg">
-                    <div className="text-lg font-bold text-green-600">
+                  <div className="text-center p-3 bg-gain/10 rounded-lg">
+                    <div className="text-lg font-bold text-gain">
                       ${result.finalValue.toFixed(0)}
                     </div>
                     <div className="text-xs text-muted-foreground">Final Value</div>
@@ -129,8 +129,8 @@ const Scenarios = ({ onScenarioSelect }) => {
                 </div>
 
                 {/* Performance */}
-                <div className="text-center p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600 flex items-center justify-center space-x-2">
+                <div className="text-center p-3 bg-gain/10 rounded-lg">
+                  <div className="text-2xl font-bold text-gain flex items-center justify-center space-x-2">
                     <TrendingUp className="h-6 w-6" />
                     <span>+{result.percentage.toFixed(0)}%</span>
                   </div>
@@ -162,7 +162,7 @@ const Scenarios = ({ onScenarioSelect }) => {
                 {/* Action Button */}
                 <Button
                   onClick={() => onScenarioSelect(scenario)}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold transition-all duration-200 transform hover:scale-105"
+                  className="w-full bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
                 >
                   <Play className="h-4 w-4 mr-2" />
                   Try This Scenario
@@ -197,16 +197,16 @@ const Scenarios = ({ onScenarioSelect }) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-              <div className="text-2xl font-bold text-blue-600">10,000</div>
+            <div className="text-center p-4 bg-muted rounded-xl">
+              <div className="text-2xl font-bold text-foreground">10,000</div>
               <div className="text-sm text-muted-foreground">BTC spent on two pizzas in 2010</div>
             </div>
-            <div className="text-center p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-              <div className="text-2xl font-bold text-green-600">$1M</div>
+            <div className="text-center p-4 bg-gain/10 rounded-xl">
+              <div className="text-2xl font-bold text-gain">$1M</div>
               <div className="text-sm text-muted-foreground">Netflix stock bought in 2002</div>
             </div>
-            <div className="text-center p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
-              <div className="text-2xl font-bold text-purple-600">32x</div>
+            <div className="text-center p-4 bg-muted rounded-xl">
+              <div className="text-2xl font-bold text-foreground">32x</div>
               <div className="text-sm text-muted-foreground">Apple's return since 2010</div>
             </div>
           </div>

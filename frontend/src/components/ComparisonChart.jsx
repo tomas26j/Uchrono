@@ -82,8 +82,8 @@ const ComparisonChart = ({ portfolioResults, benchmarks }) => {
       datasets.push({
         label: benchmark.benchmarkType,
         data,
-        borderColor: benchmark.benchmarkType === 'S&P 500' ? '#6366f1' : '#f59e0b',
-        backgroundColor: benchmark.benchmarkType === 'S&P 500' ? '#6366f120' : '#f59e0b20',
+        borderColor: benchmark.benchmarkType === 'S&P 500' ? '#8A847A' : '#3D5A80',
+        backgroundColor: benchmark.benchmarkType === 'S&P 500' ? '#8A847A20' : '#3D5A8020',
         borderWidth: 2,
         borderDash: [5, 5],
         fill: false,
@@ -124,15 +124,15 @@ const ComparisonChart = ({ portfolioResults, benchmarks }) => {
           size: 16,
           weight: 'bold'
         },
-        color: '#1f2937'
+        color: '#1C1A17'
       },
       tooltip: {
         mode: 'index',
         intersect: false,
         backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        titleColor: '#1f2937',
-        bodyColor: '#1f2937',
-        borderColor: '#e5e7eb',
+        titleColor: '#1C1A17',
+        bodyColor: '#1C1A17',
+        borderColor: '#E5E1D9',
         borderWidth: 1,
         cornerRadius: 8,
         padding: 12,
@@ -162,7 +162,7 @@ const ComparisonChart = ({ portfolioResults, benchmarks }) => {
         },
         grid: {
           display: true,
-          color: '#f3f4f6'
+          color: '#E5E1D9'
         },
         ticks: {
           maxTicksLimit: 8,
@@ -183,7 +183,7 @@ const ComparisonChart = ({ portfolioResults, benchmarks }) => {
         },
         grid: {
           display: true,
-          color: '#f3f4f6'
+          color: '#E5E1D9'
         },
         ticks: {
           callback: function(value) {
