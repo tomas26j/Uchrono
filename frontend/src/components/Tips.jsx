@@ -88,21 +88,21 @@ const Tips = () => {
 
   const getCategoryIcon = (category) => {
     switch (category) {
-      case 'education': return <BookOpen className="h-5 w-5 text-blue-500" />;
-      case 'strategy': return <TrendingUp className="h-5 w-5 text-green-500" />;
-      case 'risk-management': return <Shield className="h-5 w-5 text-orange-500" />;
-      case 'psychology': return <span className="text-purple-500">🧠</span>;
-      default: return <Lightbulb className="h-5 w-5 text-yellow-500" />;
+      case 'education': return <BookOpen className="h-5 w-5 text-primary" />;
+      case 'strategy': return <TrendingUp className="h-5 w-5 text-gain" />;
+      case 'risk-management': return <Shield className="h-5 w-5 text-loss" />;
+      case 'psychology': return <span className="text-primary">🧠</span>;
+      default: return <Lightbulb className="h-5 w-5 text-primary" />;
     }
   };
 
   const getCategoryColor = (category) => {
     switch (category) {
-      case 'education': return 'bg-blue-100 text-blue-800';
-      case 'strategy': return 'bg-green-100 text-green-800';
-      case 'risk-management': return 'bg-orange-100 text-orange-800';
-      case 'psychology': return 'bg-purple-100 text-purple-800';
-      default: return 'bg-yellow-100 text-yellow-800';
+      case 'education': return 'bg-primary/10 text-primary';
+      case 'strategy': return 'bg-gain/10 text-gain';
+      case 'risk-management': return 'bg-loss/10 text-loss';
+      case 'psychology': return 'bg-primary/10 text-primary';
+      default: return 'bg-primary/10 text-primary';
     }
   };
 
@@ -123,7 +123,7 @@ const Tips = () => {
       {/* Header */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-foreground">
             Financial Tips & Education
           </CardTitle>
           <p className="text-muted-foreground mt-2">
@@ -134,18 +134,18 @@ const Tips = () => {
 
       {/* Tip of the Day */}
       {tipOfTheDay && (
-        <Card className="backdrop-blur-sm bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200 shadow-2xl">
+        <Card className="backdrop-blur-sm bg-muted border-border shadow-2xl">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                  <Lightbulb className="h-6 w-6 text-black" />
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                  <Lightbulb className="h-6 w-6 text-primary-foreground" />
                 </div>
                 <div>
-                  <CardTitle className="text-black text-xl font-bold">
+                  <CardTitle className="text-foreground text-xl font-bold">
                     💡 Tip of the Day
                   </CardTitle>
-                  <p className="text-black text-sm">Your daily dose of financial wisdom</p>
+                  <p className="text-foreground text-sm">Your daily dose of financial wisdom</p>
                 </div>
               </div>
               <div className="flex space-x-2">
@@ -153,7 +153,7 @@ const Tips = () => {
                   variant="outline"
                   size="sm"
                   onClick={refreshTipOfTheDay}
-                  className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+                  className="flex items-center space-x-2 border-2 border-border focus:border-primary"
                 >
                   <RefreshCw className="h-4 w-4" />
                   <span>New Tip</span>
@@ -162,7 +162,7 @@ const Tips = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => shareTip(tipOfTheDay)}
-                  className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+                  className="flex items-center space-x-2 border-2 border-border focus:border-primary"
                 >
                   <Share2 className="h-4 w-4" />
                   <span>Share</span>
@@ -172,10 +172,10 @@ const Tips = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <h3 className="text-black text-lg font-semibold">
+              <h3 className="text-foreground text-lg font-semibold">
                 {tipOfTheDay.title}
               </h3>
-              <p className="text-black leading-relaxed">
+              <p className="text-foreground leading-relaxed">
                 {tipOfTheDay.content}
               </p>
               <Badge className={getCategoryColor(tipOfTheDay.category)}>
@@ -194,7 +194,7 @@ const Tips = () => {
             placeholder="Search tips..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-12 border-2 border-border focus:border-blue-500"
+            className="pl-10 h-12 border-2 border-border focus:border-primary"
           />
         </div>
         
@@ -205,7 +205,7 @@ const Tips = () => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
             >
               <span>{category.icon}</span>
               <span>{category.label}</span>
@@ -217,13 +217,13 @@ const Tips = () => {
       {/* Tips Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredTips.map((tip) => (
-          <Card key={tip.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+          <Card key={tip.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-shadow duration-200">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex items-center space-x-3">
                   {getCategoryIcon(tip.category)}
                   <div>
-                    <CardTitle className="text-lg font-bold text-darkgray leading-tight">
+                    <CardTitle className="text-lg font-bold text-foreground leading-tight">
                       {tip.title}
                     </CardTitle>
                     <Badge className={`mt-2 ${getCategoryColor(tip.category)}`}>
@@ -245,7 +245,7 @@ const Tips = () => {
             <CardContent className="space-y-4">
               {/* Tip Content */}
               <div className="bg-muted/50 p-4 rounded-lg">
-                <p className="text-darkgray leading-relaxed text-sm">
+                <p className="text-foreground leading-relaxed text-sm">
                   {tip.content}
                 </p>
               </div>
@@ -253,14 +253,14 @@ const Tips = () => {
               {/* Action */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <DollarSign className="h-4 w-4 text-green-500" />
-                  <span className="text-sm text-green-500">Financial Wisdom</span>
+                  <DollarSign className="h-4 w-4 text-gain" />
+                  <span className="text-sm text-gain">Financial Wisdom</span>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => shareTip(tip)}
-                  className="text-blue-600 hover:text-blue-800"
+                  className="text-primary hover:text-primary/80"
                 >
                   <Share2 className="h-4 w-4 mr-1" />
                   Share
@@ -277,7 +277,7 @@ const Tips = () => {
           <CardContent className="py-12">
             <div className="text-center">
               <Lightbulb className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-darkgray mb-2">No Tips Found</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">No Tips Found</h3>
               <p className="text-muted-foreground">
                 Try adjusting your search terms or category filters
               </p>
@@ -289,23 +289,23 @@ const Tips = () => {
       {/* Educational Resources */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-darkgray">
+          <CardTitle className="text-xl font-semibold text-foreground">
             📚 Educational Resources
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-blue-50 rounded-xl">
-              <h4 className="font-semibold text-blue-900 mb-2">📖 Recommended Books</h4>
-              <ul className="text-sm text-blue-800 space-y-1">
+            <div className="p-4 bg-muted rounded-xl">
+              <h4 className="font-semibold text-foreground mb-2">📖 Recommended Books</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• "The Intelligent Investor" by Benjamin Graham</li>
                 <li>• "A Random Walk Down Wall Street" by Burton Malkiel</li>
                 <li>• "The Bogleheads' Guide to Investing" by Taylor Larimore</li>
               </ul>
             </div>
-            <div className="p-4 bg-green-50 rounded-xl">
-              <h4 className="font-semibold text-green-900 mb-2">🎓 Key Concepts</h4>
-              <ul className="text-sm text-green-800 space-y-1">
+            <div className="p-4 bg-gain/10 rounded-xl">
+              <h4 className="font-semibold text-gain mb-2">🎓 Key Concepts</h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• Compound Interest</li>
                 <li>• Asset Allocation</li>
                 <li>• Dollar-Cost Averaging</li>
@@ -320,7 +320,7 @@ const Tips = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-foreground">
               {filteredTips.length}
             </div>
             <div className="text-sm text-muted-foreground">Tips Available</div>
@@ -329,7 +329,7 @@ const Tips = () => {
 
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-gain">
               {filteredTips.filter(t => t.category === 'strategy').length}
             </div>
             <div className="text-sm text-muted-foreground">Strategy Tips</div>
@@ -338,7 +338,7 @@ const Tips = () => {
 
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-2xl font-bold text-loss">
               {filteredTips.filter(t => t.category === 'risk-management').length}
             </div>
             <div className="text-sm text-muted-foreground">Risk Management</div>
@@ -347,7 +347,7 @@ const Tips = () => {
 
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-purple-600">
+            <div className="text-2xl font-bold text-primary">
               {filteredTips.filter(t => t.category === 'psychology').length}
             </div>
             <div className="text-sm text-muted-foreground">Psychology Tips</div>

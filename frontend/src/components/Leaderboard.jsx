@@ -65,32 +65,25 @@ const Leaderboard = () => {
 
   const getRankIcon = (index) => {
     switch (index) {
-      case 0: return <Crown className="h-6 w-6 text-black-500" />;
-      case 1: return <Medal className="h-6 w-6 text-black-400" />;
-      case 2: return <Award className="h-6 w-6 text-black-600" />;
-      default: return <Trophy className="h-5 w-5 text-black-400" />;
+      case 0: return <Crown className="h-6 w-6 text-primary-foreground" />;
+      case 1: return <Medal className="h-6 w-6 text-foreground" />;
+      case 2: return <Award className="h-6 w-6 text-primary-foreground" />;
+      default: return <Trophy className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
-  const getRankColor = (index) => {
+  const getRankBg = (index) => {
     switch (index) {
-      case 0: return 'from-yellow-400 to-yellow-600';
-      case 1: return 'from-gray-300 to-gray-500';
-      case 2: return 'from-amber-400 to-amber-600';
-      default: return 'from-gray-200 to-gray-400';
+      case 0: return 'bg-primary';
+      case 1: return 'bg-muted-foreground/50';
+      case 2: return 'bg-primary/60';
+      default: return 'bg-muted';
     }
   };
 
   const getPerformanceColor = (returnValue) => {
-    if (returnValue > 0) {
-      if (returnValue > 500) return 'text-green-600 bg-green-50';
-      if (returnValue > 100) return 'text-green-500 bg-green-50';
-      return 'text-green-400 bg-green-50';
-    } else {
-      if (returnValue < -50) return 'text-red-600 bg-red-50';
-      if (returnValue < -20) return 'text-red-500 bg-red-50';
-      return 'text-red-400 bg-red-50';
-    }
+    if (returnValue > 0) return 'text-gain bg-gain/10';
+    return 'text-loss bg-loss/10';
   };
 
   return (
@@ -98,13 +91,13 @@ const Leaderboard = () => {
       {/* Header */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-foreground">
             Investment Leaderboard
           </CardTitle>
           <p className="text-muted-foreground mt-2">
             See the top performing investments across different time periods
           </p>
-          {loading && <div className="mt-2 text-blue-600 font-semibold">Cargando datos reales...</div>}
+          {loading && <div className="mt-2 text-primary font-semibold">Cargando datos reales...</div>}
         </CardHeader>
       </Card>
 
@@ -118,7 +111,7 @@ const Leaderboard = () => {
               variant={selectedPeriod === period.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedPeriod(period.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
             >
               <span>{period.icon}</span>
               <span>{period.label}</span>
@@ -134,7 +127,7 @@ const Leaderboard = () => {
               variant={viewMode === mode.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewMode(mode.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
             >
               <span>{mode.icon}</span>
               <span>{mode.label}</span>
@@ -149,12 +142,12 @@ const Leaderboard = () => {
           <CardTitle className="text-xl font-semibold text-foreground flex items-center space-x-2">
             {viewMode === 'winners' ? (
               <>
-                <TrendingUp className="h-6 w-6 text-green-500" />
+                <TrendingUp className="h-6 w-6 text-gain" />
                 <span>Top Winners - {periods.find(p => p.id === selectedPeriod)?.label}</span>
               </>
             ) : (
               <>
-                <TrendingDown className="h-6 w-6 text-red-500" />
+                <TrendingDown className="h-6 w-6 text-loss" />
                 <span>Biggest Losers - {periods.find(p => p.id === selectedPeriod)?.label}</span>
               </>
             )}
@@ -169,7 +162,7 @@ const Leaderboard = () => {
               return (
                 <div key={entry.asset} className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl hover:bg-muted/70 transition-colors">
                   {/* Rank */}
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${getRankColor(index)} flex items-center justify-center`}>
+                  <div className={`w-12 h-12 rounded-full ${getRankBg(index)} flex items-center justify-center`}>
                     {getRankIcon(index)}
                   </div>
 
@@ -248,7 +241,7 @@ const Leaderboard = () => {
                     {ASSETS.find(a => a.id === displayData[0].asset)?.name}
                   </span>
                 </div>
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold text-gain">
                   +{displayData[0].return.toFixed(1)}%
                 </div>
               </div>
@@ -264,7 +257,7 @@ const Leaderboard = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-primary">
                 +{displayData.length > 0 ? (displayData.reduce((sum, entry) => sum + entry.return, 0) / displayData.length).toFixed(1) : 0}%
               </div>
               <div className="text-sm text-muted-foreground">
@@ -282,7 +275,7 @@ const Leaderboard = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <div className="text-2xl font-bold text-purple-600">
+              <div className="text-2xl font-bold text-foreground">
                 {periods.find(p => p.id === selectedPeriod)?.label}
               </div>
               <div className="text-sm text-muted-foreground">
@@ -294,15 +287,15 @@ const Leaderboard = () => {
       </div>
 
       {/* Disclaimer */}
-      <Card className="backdrop-blur-sm bg-yellow-50 border-yellow-200 shadow-xl">
+      <Card className="backdrop-blur-sm bg-muted border-border shadow-xl">
         <CardContent className="py-4">
           <div className="flex items-start space-x-3">
-            <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-white text-sm font-bold">!</span>
+            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+              <span className="text-primary-foreground text-sm font-bold">!</span>
             </div>
             <div>
-              <h4 className="font-semibold text-yellow-800">Important Disclaimer</h4>
-              <p className="text-sm text-yellow-700 mt-1">
+              <h4 className="font-semibold text-foreground">Important Disclaimer</h4>
+              <p className="text-sm text-muted-foreground mt-1">
                 These rankings are based on historical data and do not guarantee future performance. 
                 Past performance is not indicative of future results. All investments carry risk.
               </p>

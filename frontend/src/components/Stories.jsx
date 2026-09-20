@@ -27,19 +27,19 @@ const Stories = () => {
 
   const getCategoryIcon = (category) => {
     switch (category) {
-      case 'legendary': return <Star className="h-5 w-5 text-yellow-500" />;
-      case 'cautionary': return <AlertTriangle className="h-5 w-5 text-orange-500" />;
-      case 'missed-opportunity': return <TrendingDown className="h-5 w-5 text-red-500" />;
-      default: return <BookOpen className="h-5 w-5 text-blue-500" />;
+      case 'legendary': return <Star className="h-5 w-5 text-primary" />;
+      case 'cautionary': return <AlertTriangle className="h-5 w-5 text-loss" />;
+      case 'missed-opportunity': return <TrendingDown className="h-5 w-5 text-loss" />;
+      default: return <BookOpen className="h-5 w-5 text-primary" />;
     }
   };
 
   const getCategoryColor = (category) => {
     switch (category) {
-      case 'legendary': return 'bg-yellow-100 text-yellow-800';
-      case 'cautionary': return 'bg-orange-100 text-orange-800';
-      case 'missed-opportunity': return 'bg-red-100 text-red-800';
-      default: return 'bg-blue-100 text-blue-800';
+      case 'legendary': return 'bg-primary/10 text-primary';
+      case 'cautionary': return 'bg-loss/10 text-loss';
+      case 'missed-opportunity': return 'bg-loss/10 text-loss';
+      default: return 'bg-primary/10 text-primary';
     }
   };
 
@@ -92,7 +92,7 @@ const Stories = () => {
       {/* Header */}
       <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-foreground">
             Investment Stories
           </CardTitle>
           <p className="text-muted-foreground mt-2">
@@ -109,7 +109,7 @@ const Stories = () => {
             placeholder="Search stories..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-12 border-2 border-border focus:border-blue-500"
+            className="pl-10 h-12 border-2 border-border focus:border-primary"
           />
         </div>
         
@@ -120,7 +120,7 @@ const Stories = () => {
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="flex items-center space-x-2 border-2 border-border focus:border-blue-500"
+              className="flex items-center space-x-2 border-2 border-border focus:border-primary"
             >
               <span>{category.icon}</span>
               <span>{category.label}</span>
@@ -132,7 +132,7 @@ const Stories = () => {
       {/* Stories Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {displayStories.map((story) => (
-          <Card key={story.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+          <Card key={story.id} className="backdrop-blur-sm bg-card/90 border-border shadow-xl hover:shadow-2xl transition-shadow duration-200">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex items-center space-x-3">
@@ -152,18 +152,18 @@ const Stories = () => {
             <CardContent className="space-y-4">
               {/* Story Content */}
               <div className="bg-muted/50 p-4 rounded-lg">
-                <p className="text-darkgray leading-relaxed">
+                <p className="text-foreground leading-relaxed">
                   {story.content}
                 </p>
               </div>
 
               {/* Lesson */}
-              <div className="text-black bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg border-l-4 border-blue-500">
-                <h4 className="text-black font-semibold mb-2 flex items-center space-x-2 ">
+              <div className="text-foreground bg-muted p-4 rounded-lg border-l-4 border-primary">
+                <h4 className="text-foreground font-semibold mb-2 flex items-center space-x-2">
                   <span>💡</span>
                   <span>Key Lesson</span>
                 </h4>
-                <p className="text-black text-sm font-medium">
+                <p className="text-foreground text-sm font-medium">
                   {story.lesson}
                 </p>
               </div>
@@ -174,7 +174,7 @@ const Stories = () => {
                   <span className="text-sm text-muted-foreground">Asset Type:</span>
                   <Badge variant="outline">{story.asset}</Badge>
                 </div>
-                <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-800">
+                <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">
                   <ExternalLink className="h-4 w-4 mr-1" />
                   Learn More
                 </Button>
@@ -200,14 +200,14 @@ const Stories = () => {
       )}
 
       {/* Featured Quote */}
-      <Card className="backdrop-blur-sm bg-gradient-to-r from-blue-50 to-purple-50 border-border shadow-2xl">
+      <Card className="backdrop-blur-sm bg-muted border-border shadow-2xl">
         <CardContent className="py-8">
           <div className="text-center">
             <div className="text-4xl mb-4">💭</div>
-            <blockquote className="text-black text-xl font-medium mb-4">
+            <blockquote className="text-foreground text-xl font-medium mb-4">
               "The stock market is a device for transferring money from the impatient to the patient."
             </blockquote>
-            <cite className="text-black text-gray font-semibold">— Warren Buffett</cite>
+            <cite className="text-muted-foreground font-semibold">— Warren Buffett</cite>
           </div>
         </CardContent>
       </Card>
@@ -216,7 +216,7 @@ const Stories = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-foreground">
               {displayStories.length}
             </div>
             <div className="text-sm text-muted-foreground">Stories Available</div>
@@ -225,7 +225,7 @@ const Stories = () => {
 
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-gain">
               {displayStories.filter(s => s.category === 'legendary').length}
             </div>
             <div className="text-sm text-muted-foreground">Success Stories</div>
@@ -234,7 +234,7 @@ const Stories = () => {
 
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-2xl font-bold text-loss">
               {displayStories.filter(s => s.category === 'cautionary').length}
             </div>
             <div className="text-sm text-muted-foreground">Cautionary Tales</div>
@@ -243,7 +243,7 @@ const Stories = () => {
 
         <Card className="backdrop-blur-sm bg-card/90 border-border shadow-xl">
           <CardContent className="py-4 text-center">
-            <div className="text-2xl font-bold text-red-600">
+            <div className="text-2xl font-bold text-loss">
               {displayStories.filter(s => s.category === 'missed-opportunity').length}
             </div>
             <div className="text-sm text-muted-foreground">Missed Opportunities</div>
