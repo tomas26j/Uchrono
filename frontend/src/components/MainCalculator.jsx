@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Calendar, TrendingUp, TrendingDown, DollarSign, Share2 } from 'lucide-react';
+import { Calendar, TrendingUp, TrendingDown, DollarSign, Share2, Loader2 } from 'lucide-react';
 import { ASSETS, generateMockPriceData } from '../data/mockData';
 import { fetchStockHistory } from '../lib/alphaVantage';
 import { toast } from 'sonner';
@@ -373,19 +373,24 @@ const MainCalculator = ({ onResult, initialData }) => {
             </div>
           </div>
 
-          <Button 
-            onClick={calculateInvestment} 
-            disabled={loading}
+          <Button
+            onClick={calculateInvestment}
+            disabled={loading || !selectedAsset || !amount || !buyDate || !sellDate}
             className="w-full h-12 bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90"
           >
-            {loading ? 'Calculating...' : 'Calculate Investment'}
+            {loading ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Calculating...
+              </>
+            ) : 'Calculate Investment'}
           </Button>
         </CardContent>
       </Card>
 
       {/* Results */}
       {result && (
-        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl">
+        <Card className="backdrop-blur-sm bg-card/90 border-border shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-300">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-2xl font-bold text-foreground">

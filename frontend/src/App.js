@@ -77,7 +77,7 @@ function App() {
                 <button
                   key={id}
                   onClick={() => setActiveSection(id)}
-                  className={`flex items-center gap-2 py-4 px-2 border-b-2 transition-colors duration-120 whitespace-nowrap ${
+                  className={`flex items-center gap-2 py-4 px-2 border-b-2 transition-all duration-120 whitespace-nowrap active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
                     activeSection === id
                       ? 'border-primary text-primary font-semibold'
                       : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'

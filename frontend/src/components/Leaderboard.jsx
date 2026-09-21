@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Trophy, TrendingUp, TrendingDown, Medal, Award, Crown } from 'lucide-react';
+import { Trophy, TrendingUp, TrendingDown, Medal, Award, Crown, Loader2 } from 'lucide-react';
 import { LEADERBOARD_DATA, ASSETS } from '../data/mockData';
 import { fetchStockHistory } from '../lib/alphaVantage';
 
@@ -153,10 +153,20 @@ const Leaderboard = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {displayData.map((entry, index) => {
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 text-primary animate-spin mb-3" strokeWidth={1.75} />
+                <p className="text-muted-foreground text-sm">Loading performance data...</p>
+              </div>
+            ) : displayData.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <Trophy className="h-10 w-10 text-muted-foreground mx-auto mb-3" strokeWidth={1.5} />
+                <p className="text-muted-foreground">No data available for this period</p>
+              </div>
+            ) : displayData.map((entry, index) => {
               const asset = ASSETS.find(a => a.id === entry.asset);
               const isPositive = entry.return > 0;
-              
+
               return (
                 <div key={entry.asset} className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl hover:bg-muted/70 transition-colors">
                   {/* Rank */}
