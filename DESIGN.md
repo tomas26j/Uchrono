@@ -122,7 +122,6 @@ disabled:opacity-50 disabled:cursor-not-allowed
 - `cn()` de `@/lib/utils` para merges condicionales.
 - Iconos: exclusivamente `lucide-react`.
 - `AdvancedCalculator` requiere `dynamic(() => import(...), { ssr: false })` — usa `html2canvas`, `jsPDF` y `Chart.js` que no soportan SSR.
-- PostHog analytics: pendiente de migrar a `next/script` con `strategy="afterInteractive"`.
 
 ---
 
