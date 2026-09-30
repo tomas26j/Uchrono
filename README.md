@@ -2,9 +2,9 @@
 
 Calculadora de inversiones contrafáctica: ¿qué hubiera pasado si hubieras comprado Bitcoin en 2020? ¿Y si hubieras elegido oro en vez de acciones tecnológicas?
 
-Herramienta educativa con datos mock. No usa datos reales de mercado ni requiere cuenta de usuario.
+Herramienta educativa con precios históricos reales. No requiere cuenta de usuario ni backend.
 
-**Deploy:** [Netlify — static export](https://uchrono.netlify.app)
+**Deploy:** [uchronia.netlify.app](https://uchronia.netlify.app)
 
 ---
 
@@ -35,9 +35,67 @@ Toggle persistente en el header (via `next-themes`).
 | PDF export      | html2canvas + jsPDF                                       |
 | Tema            | next-themes                                               |
 | Fuentes         | DM Sans, Fraunces, IBM Plex Mono (next/font/google)       |
+| Datos           | JSON estáticos versionados, generados en CI               |
 | Hosting         | Netlify (output: 'export')                                |
 
-> Los datos son completamente ficticios y tienen propósito exclusivamente educativo.
+> Los precios son históricos y reales. La herramienta es educativa: **no es asesoramiento
+> financiero**, y el rendimiento pasado no predice el futuro.
+
+---
+
+## Datos de mercado
+
+Los precios salen de JSON estáticos en `frontend/public/data/`, uno por activo,
+generados por `scripts/fetch-market-data.mjs` y **versionados en el repo**.
+
+**El navegador no llama a ninguna API externa.** No hay claves que exponer, no
+hay límites de uso que agotar, y la carga es un solo fetch a un archivo que
+Netlify sirve comprimido desde su CDN.
+
+### Cómo se actualizan
+
+Un workflow de GitHub Actions corre todos los días a las 06:30 UTC, baja las
+series, las valida y commitea solo si cambiaron. El push dispara el deploy de
+Netlify. Para una calculadora contrafáctica el cierre del día alcanza de sobra.
+
+```bash
+cd frontend
+npm run data:update          # descargar + verificar
+npm run data:fetch -- --only bitcoin,tesla
+npm run data:verify          # solo control de calidad
+```
+
+### Fuentes
+
+Cada activo declara una cadena de fuentes; se usa la primera que responda.
+
+| Fuente | Clave | Rol |
+|---|---|---|
+| Yahoo Finance (`chart`) | No | Principal. Acciones, cripto, oro e índices. `adjclose` para acciones, que corrige splits y dividendos |
+| Binance (`klines`) | No | Respaldo de cripto. Su historia arranca en 2017 |
+| FRED (CSV) | No | Respaldo del S&P 500 |
+| Blockchain.com | No | Extiende Bitcoin hasta 2010, que es donde Yahoo no llega |
+
+Yahoo no es una API oficial y puede cambiar sin aviso; por eso hay respaldos y
+por eso los JSON se versionan.
+
+### Qué pasa si una fuente falla
+
+Nada visible. Si ninguna fuente responde para un activo, el JSON que ya estaba
+en el repo queda intacto y la app sigue sirviendo los últimos datos buenos. Los
+datos nuevos se **mergean** sobre los viejos por fecha, así que un punto que una
+fuente dejó de dar nunca se pierde.
+
+`scripts/verify-market-data.mjs` corre antes del commit y frena series vacías,
+precios no positivos, fechas duplicadas o desordenadas y datos con más de 7 días
+de atraso. Avisa —sin frenar— ante saltos diarios grandes, que suelen delatar un
+split mal ajustado.
+
+Para probar la cadena de respaldo sin esperar a que algo se caiga de verdad:
+
+```bash
+UCHRONO_SKIP_SOURCES=yahoo npm run data:fetch
+```
 
 ---
 

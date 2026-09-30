@@ -1,0 +1,60 @@
+name: Actualizar datos de mercado
+
+# Corre de noche y commitea las series si cambiaron. El push dispara el deploy
+# de Netlify, así que la app queda al día sin intervención.
+#
+# Los JSON se versionan a propósito: son el respaldo. Si mañana una fuente se
+# cae, el build sigue sirviendo los últimos datos buenos en vez de romperse.
+on:
+  schedule:
+    # 06:30 UTC = 03:30 en Argentina. Los mercados US ya cerraron y la vela
+    # diaria de cripto (UTC) también.
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Activos a actualizar, separados por coma (vacío = todos)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Descargar series
+        working-directory: frontend
+        run: |
+          if [ -n "${{ inputs.only }}" ]; then
+            node scripts/fetch-market-data.mjs --only "${{ inputs.only }}"
+          else
+            node scripts/fetch-market-data.mjs
+          fi
+
+      - name: Verificar que las series sigan siendo válidas
+        working-directory: frontend
+        run: node scripts/verify-market-data.mjs
+
+      - name: Commitear si hubo cambios
+        run: |
+          if git diff --quiet -- frontend/public/data; then
+            echo "Sin cambios en los datos."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/public/data
+          git commit -m "chore(data): actualizar series de mercado al $(date -u +%Y-%m-%d)"
+          git push

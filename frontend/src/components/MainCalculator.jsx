@@ -5,8 +5,8 @@ import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Calendar, TrendingUp, TrendingDown, DollarSign, Share2, Loader2 } from 'lucide-react';
-import { ASSETS, generateMockPriceData } from '../data/mockData';
-import { fetchStockHistory } from '../lib/alphaVantage';
+import { ASSETS } from '../data/mockData';
+import { fetchPriceHistory, MarketDataError } from '../lib/marketData';
 import { toast } from 'sonner';
 
 const MainCalculator = ({ onResult, initialData }) => {
@@ -27,16 +27,6 @@ const MainCalculator = ({ onResult, initialData }) => {
     }
   }, [initialData]);
 
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.detail) {
-        toast.warning(e.detail, { duration: 5000 });
-      }
-    };
-    window.addEventListener('alphaVantageWarning', handler);
-    return () => window.removeEventListener('alphaVantageWarning', handler);
-  }, []);
-
   const calculateInvestment = async () => {
     if (!selectedAsset || !amount || !buyDate || !sellDate) {
       toast.error('Please fill in all fields');
@@ -52,16 +42,17 @@ const MainCalculator = ({ onResult, initialData }) => {
     
     try {
       const asset = ASSETS.find(a => a.id === selectedAsset);
-      let priceData = await fetchStockHistory(asset.symbol || asset.id, buyDate, sellDate);
-      let usedMock = false;
-      if (!priceData || priceData.length === 0) {
-        priceData = generateMockPriceData(selectedAsset, buyDate, sellDate);
-        usedMock = true;
-      }
+      const { points: priceData, buy, sell, meta } = await fetchPriceHistory(
+        asset.id,
+        buyDate,
+        sellDate
+      );
 
-      const buyPrice = priceData.find(p => p.date === buyDate)?.price || priceData[0]?.price;
-      const sellPrice = priceData.find(p => p.date === sellDate)?.price || priceData[priceData.length - 1]?.price;
-      
+      // buy y sell son el último cierre conocido en o antes de la fecha pedida:
+      // si el usuario elige un sábado o un feriado, se usa el viernes.
+      const buyPrice = buy.price;
+      const sellPrice = sell.price;
+
       const shares = parseFloat(amount) / buyPrice;
       const finalValue = shares * sellPrice;
       const gain = finalValue - parseFloat(amount);
@@ -81,15 +72,32 @@ const MainCalculator = ({ onResult, initialData }) => {
         percentageGain,
         priceData,
         scenario: initialData?.scenario || null,
-        usedMock // <-- flag para advertencia
+        // Trazabilidad del dato: de qué fuente salió y hasta cuándo llega.
+        dataSource: meta.source,
+        dataUpdatedAt: meta.updatedAt,
+        adjusted: meta.adjusted,
+        actualBuyDate: buy.date,
+        actualSellDate: sell.date
       };
-      
+
       setResult(calculationResult);
       onResult(calculationResult);
-      
-      toast.success('Investment calculated successfully!');
+
+      // Si la fecha pedida cayó en día no hábil, decirlo en vez de disimularlo.
+      if (!buy.exact || !sell.exact) {
+        toast.info(
+          `Se usó el último cierre disponible: compra ${buy.date}, venta ${sell.date}.`
+        );
+      } else {
+        toast.success('Investment calculated successfully!');
+      }
     } catch (error) {
-      toast.error(`Error calculando inversión: ${error.message || error}`);
+      if (error instanceof MarketDataError) {
+        // Error entendible: falta de datos para ese rango, no un fallo técnico.
+        toast.error(error.message);
+      } else {
+        toast.error(`Error calculando inversión: ${error.message || error}`);
+      }
     } finally {
       setLoading(false);
     }

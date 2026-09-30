@@ -92,10 +92,13 @@ const Timeline = ({ asset, calculatorData }) => {
                 <p className="text-muted-foreground">
                   {formatDate(timelineData.buyDate)} to {formatDate(timelineData.sellDate)}
                 </p>
-                {timelineData.usedMock && (
-                  <div className="mt-2 text-sm font-semibold text-primary bg-primary/10 rounded px-2 py-1 inline-block">
-                    ADVERTENCIA: Se están usando datos simulados (mock) por falta de datos reales.
-                  </div>
+                {timelineData.dataSource && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    Precios de cierre{timelineData.adjusted ? ', ajustados por splits y dividendos' : ''}
+                    {timelineData.dataUpdatedAt
+                      ? ` · actualizados el ${formatDate(timelineData.dataUpdatedAt.slice(0, 10))}`
+                      : ''}
+                  </p>
                 )}
               </div>
             </div>

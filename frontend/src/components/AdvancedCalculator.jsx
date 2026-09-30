@@ -23,8 +23,9 @@ import {
   Plus, Minus, Download, Share2, TrendingUp, TrendingDown, 
   DollarSign, Target, Activity, Calendar, X 
 } from 'lucide-react';
-import { ASSETS, generateMockPriceData } from '../data/mockData';
-import { fetchStockHistory } from '../lib/alphaVantage';
+import { ASSETS } from '../data/mockData';
+import { fetchPriceHistory } from '../lib/marketData';
+import { riskMetrics } from '../lib/metrics';
 import { toast } from 'sonner';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -93,16 +94,14 @@ const AdvancedCalculator = () => {
     setSelectedAssets(selectedAssets.filter(a => a.id !== assetId));
   };
 
-  // Cambiar funciones de cálculo a async y usar fetchStockHistory
   const calculateSingleInvestment = async (asset, amount, startDate, endDate) => {
-    let priceData = await fetchStockHistory(asset.symbol || asset.id, startDate, endDate);
-    let usedMock = false;
-    if (!priceData || priceData.length === 0) {
-      priceData = generateMockPriceData(asset.id, startDate, endDate);
-      usedMock = true;
-    }
-    const buyPrice = priceData[0]?.price || 1;
-    const sellPrice = priceData[priceData.length - 1]?.price || 1;
+    const { points: priceData, buy, sell, meta } = await fetchPriceHistory(
+      asset.id,
+      startDate,
+      endDate
+    );
+    const buyPrice = buy.price;
+    const sellPrice = sell.price;
     const shares = amount / buyPrice;
     const finalValue = shares * sellPrice;
     const totalReturn = ((finalValue - amount) / amount) * 100;
@@ -119,19 +118,15 @@ const AdvancedCalculator = () => {
       buyPrice,
       sellPrice,
       priceData,
-      usedMock,
-      maxDrawdown: Math.random() * 30,
-      sharpeRatio: 0.5 + Math.random() * 2
+      dataSource: meta.source,
+      dataUpdatedAt: meta.updatedAt,
+      // Calculadas sobre la serie real, no simuladas.
+      ...riskMetrics(priceData, asset.category)
     };
   };
 
   const calculateDCA = async (asset, amount, frequency, startDate, endDate) => {
-    let priceData = await fetchStockHistory(asset.symbol || asset.id, startDate, endDate);
-    let usedMock = false;
-    if (!priceData || priceData.length === 0) {
-      priceData = generateMockPriceData(asset.id, startDate, endDate);
-      usedMock = true;
-    }
+    const { points: priceData, meta } = await fetchPriceHistory(asset.id, startDate, endDate);
     const frequencyDays = frequency === 'weekly' ? 7 : 30;
     let totalShares = 0;
     let totalInvested = 0;
@@ -165,9 +160,9 @@ const AdvancedCalculator = () => {
       shares: totalShares,
       investments,
       priceData,
-      usedMock,
-      maxDrawdown: Math.random() * 25,
-      sharpeRatio: 0.8 + Math.random() * 1.5
+      dataSource: meta.source,
+      dataUpdatedAt: meta.updatedAt,
+      ...riskMetrics(priceData, asset.category)
     };
   };
 
@@ -176,16 +171,14 @@ const AdvancedCalculator = () => {
     const sortedInvestments = [...investments].sort((a, b) => new Date(a.date) - new Date(b.date));
     const startDate = sortedInvestments[0].date;
     const endDate = sortedInvestments[sortedInvestments.length - 1].date;
-    let priceData = await fetchStockHistory(asset.symbol || asset.id, startDate, endDate);
-    let usedMock = false;
-    if (!priceData || priceData.length === 0) {
-      priceData = generateMockPriceData(asset.id, startDate, endDate);
-      usedMock = true;
-    }
+    const { points: priceData, meta } = await fetchPriceHistory(asset.id, startDate, endDate);
     let totalShares = 0;
     let totalInvested = 0;
     sortedInvestments.forEach(investment => {
-      const pricePoint = priceData.find(p => p.date === investment.date) || priceData[0];
+      // Último cierre conocido en o antes de la fecha del aporte: si el usuario
+      // eligió un día no hábil, no se cae al primer precio de la serie.
+      const pricePoint =
+        [...priceData].reverse().find(p => p.date <= investment.date) || priceData[0];
       const shares = investment.amount / pricePoint.price;
       totalShares += shares;
       totalInvested += investment.amount;
@@ -205,9 +198,9 @@ const AdvancedCalculator = () => {
       shares: totalShares,
       investments: sortedInvestments,
       priceData,
-      usedMock,
-      maxDrawdown: Math.random() * 35,
-      sharpeRatio: 0.6 + Math.random() * 1.8
+      dataSource: meta.source,
+      dataUpdatedAt: meta.updatedAt,
+      ...riskMetrics(priceData, asset.category)
     };
   };
 

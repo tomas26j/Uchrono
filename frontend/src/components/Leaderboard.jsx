@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Trophy, TrendingUp, TrendingDown, Medal, Award, Crown, Loader2 } from 'lucide-react';
 import { LEADERBOARD_DATA, ASSETS } from '../data/mockData';
-import { fetchStockHistory } from '../lib/alphaVantage';
+import { fetchPriceHistory } from '../lib/marketData';
 
 const Leaderboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('5years');
@@ -34,10 +34,16 @@ const Leaderboard = () => {
         const startDate = `${start.getFullYear()}-01-01`;
         const endDate = `${now.getFullYear()}-12-31`;
         for (const asset of ASSETS) {
-          let priceData = await fetchStockHistory(asset.symbol || asset.id, startDate, endDate);
-          if (!priceData || priceData.length < 2) continue;
-          const initial = priceData[0].price;
-          const final = priceData[priceData.length - 1].price;
+          let buy, sell;
+          try {
+            ({ buy, sell } = await fetchPriceHistory(asset.id, startDate, endDate));
+          } catch {
+            // Un activo sin datos para este período no rompe la tabla entera:
+            // simplemente no aparece en el ranking.
+            continue;
+          }
+          const initial = buy.price;
+          const final = sell.price;
           const amount = 1000;
           const shares = amount / initial;
           const value = shares * final;

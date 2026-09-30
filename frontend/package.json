@@ -60,7 +60,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "data:fetch": "node scripts/fetch-market-data.mjs",
+    "data:verify": "node scripts/verify-market-data.mjs",
+    "data:update": "npm run data:fetch && npm run data:verify"
   },
   "devDependencies": {
     "@eslint/js": "9.23.0",

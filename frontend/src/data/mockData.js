@@ -116,48 +116,6 @@ export const ASSETS = [
   }
 ];
 
-// Generate mock historical price data
-export const generateMockPriceData = (assetId, startDate, endDate) => {
-  const prices = [];
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  
-  // Base prices and volatility by asset
-  const assetConfig = {
-    bitcoin: { basePrice: 0.1, volatility: 0.08, trend: 0.002 },
-    ethereum: { basePrice: 0.5, volatility: 0.07, trend: 0.0018 },
-    dogecoin: { basePrice: 0.0001, volatility: 0.12, trend: 0.0015 },
-    tesla: { basePrice: 5, volatility: 0.06, trend: 0.0012 },
-    nvidia: { basePrice: 2, volatility: 0.05, trend: 0.0014 },
-    apple: { basePrice: 1, volatility: 0.04, trend: 0.0008 },
-    amazon: { basePrice: 5, volatility: 0.05, trend: 0.0009 },
-    google: { basePrice: 25, volatility: 0.04, trend: 0.0007 },
-    microsoft: { basePrice: 2, volatility: 0.04, trend: 0.0008 },
-    netflix: { basePrice: 1, volatility: 0.06, trend: 0.0011 },
-    gold: { basePrice: 300, volatility: 0.02, trend: 0.0003 },
-    sp500: { basePrice: 800, volatility: 0.03, trend: 0.0005 }
-  };
-  
-  const config = assetConfig[assetId] || assetConfig.bitcoin;
-  let currentPrice = config.basePrice;
-  
-  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-    // Add trend and random walk
-    const randomChange = (Math.random() - 0.5) * 2 * config.volatility;
-    const trendChange = config.trend;
-    
-    currentPrice *= (1 + trendChange + randomChange);
-    
-    prices.push({
-      date: new Date(d).toISOString().split('T')[0],
-      price: Math.max(0.0001, currentPrice),
-      volume: Math.floor(Math.random() * 1000000) + 100000
-    });
-  }
-  
-  return prices;
-};
-
 // Curated scenarios with compelling stories
 export const CURATED_SCENARIOS = [
   {
@@ -210,20 +168,20 @@ export const CURATED_SCENARIOS = [
     description: 'The most expensive pizza in history',
     asset: 'bitcoin',
     amount: 22,
-    buyDate: '2010-05-22',
+    buyDate: '2010-08-18',
     sellDate: '2021-11-01',
-    story: 'On May 22, 2010, Laszlo Hanyecz paid 10,000 BTC for two pizzas worth $22. If he had held those bitcoins instead, they would have been worth over $670 million at Bitcoin\'s peak.',
+    story: 'On May 22, 2010, Laszlo Hanyecz paid 10,000 BTC for two pizzas worth $22. Bitcoin had no public market price back then: the first one on record is $0.07, on August 18, 2010, which is where this calculation starts.',
     tags: ['pizza-day', 'crypto', 'legendary']
   },
   {
     id: 'dogecoin-meme',
-    title: '$100 in Dogecoin (2013)',
+    title: '$100 in Dogecoin (2017)',
     description: 'The joke that became a fortune',
     asset: 'dogecoin',
     amount: 100,
-    buyDate: '2013-12-01',
+    buyDate: '2017-11-09',
     sellDate: '2021-05-01',
-    story: 'Dogecoin started as a meme in 2013, trading for fractions of a cent. A $100 investment would have bought millions of coins. During the 2021 meme stock craze, it peaked at over $0.70, turning $100 into tens of thousands.',
+    story: 'Dogecoin started as a meme in 2013, trading for fractions of a cent. Reliable free price history only goes back to November 2017, so this calculation starts there, well before the 2021 meme craze took it past $0.70.',
     tags: ['meme', 'crypto', 'viral']
   }
 ];
@@ -309,32 +267,10 @@ export const DAILY_TIPS = [
   }
 ];
 
-// Mock API responses structure for future integration
-export const MOCK_API_RESPONSES = {
-  // Alpha Vantage structure
-  alphaVantage: {
-    'Time Series (Daily)': {},
-    'Meta Data': {
-      'Information': 'Daily Prices (open, high, low, close) and Volumes',
-      'Symbol': 'AAPL',
-      'Last Refreshed': '2024-01-01',
-      'Time Zone': 'US/Eastern'
-    }
-  },
-  // CoinGecko structure
-  coinGecko: {
-    prices: [], // [timestamp, price] arrays
-    market_caps: [],
-    total_volumes: []
-  }
-};
-
 export default {
   ASSETS,
-  generateMockPriceData,
   CURATED_SCENARIOS,
   LEADERBOARD_DATA,
   INVESTMENT_STORIES,
-  DAILY_TIPS,
-  MOCK_API_RESPONSES
+  DAILY_TIPS
 };
