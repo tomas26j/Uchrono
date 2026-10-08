@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-07T13:40:40.379Z",
+  "updatedAt": "2026-10-08T13:49:01.128Z",
   "assets": [
     {
       "id": "bitcoin",
@@ -9,8 +9,8 @@
       "source": "yahoo:BTC-USD",
       "adjusted": false,
       "firstDate": "2010-08-18",
-      "lastDate": "2026-10-07",
-      "points": 5895
+      "lastDate": "2026-10-08",
+      "points": 5896
     },
     {
       "id": "ethereum",
@@ -20,8 +20,8 @@
       "source": "yahoo:ETH-USD",
       "adjusted": false,
       "firstDate": "2017-11-09",
-      "lastDate": "2026-10-07",
-      "points": 3255
+      "lastDate": "2026-10-08",
+      "points": 3256
     },
     {
       "id": "dogecoin",
@@ -31,8 +31,8 @@
       "source": "yahoo:DOGE-USD",
       "adjusted": false,
       "firstDate": "2017-11-09",
-      "lastDate": "2026-10-07",
-      "points": 3255
+      "lastDate": "2026-10-08",
+      "points": 3256
     },
     {
       "id": "tesla",
@@ -42,8 +42,8 @@
       "source": "yahoo:TSLA",
       "adjusted": true,
       "firstDate": "2010-06-29",
-      "lastDate": "2026-10-07",
-      "points": 4094
+      "lastDate": "2026-10-08",
+      "points": 4095
     },
     {
       "id": "nvidia",
@@ -53,8 +53,8 @@
       "source": "yahoo:NVDA",
       "adjusted": true,
       "firstDate": "1999-01-22",
-      "lastDate": "2026-10-07",
-      "points": 6970
+      "lastDate": "2026-10-08",
+      "points": 6971
     },
     {
       "id": "apple",
@@ -64,8 +64,8 @@
       "source": "yahoo:AAPL",
       "adjusted": true,
       "firstDate": "1990-01-02",
-      "lastDate": "2026-10-07",
-      "points": 9259
+      "lastDate": "2026-10-08",
+      "points": 9260
     },
     {
       "id": "amazon",
@@ -75,8 +75,8 @@
       "source": "yahoo:AMZN",
       "adjusted": true,
       "firstDate": "1997-05-15",
-      "lastDate": "2026-10-07",
-      "points": 7395
+      "lastDate": "2026-10-08",
+      "points": 7396
     },
     {
       "id": "google",
@@ -86,8 +86,8 @@
       "source": "yahoo:GOOGL",
       "adjusted": true,
       "firstDate": "2004-08-19",
-      "lastDate": "2026-10-07",
-      "points": 5569
+      "lastDate": "2026-10-08",
+      "points": 5570
     },
     {
       "id": "microsoft",
@@ -97,8 +97,8 @@
       "source": "yahoo:MSFT",
       "adjusted": true,
       "firstDate": "1990-01-02",
-      "lastDate": "2026-10-07",
-      "points": 9259
+      "lastDate": "2026-10-08",
+      "points": 9260
     },
     {
       "id": "netflix",
@@ -108,8 +108,8 @@
       "source": "yahoo:NFLX",
       "adjusted": true,
       "firstDate": "2002-05-23",
-      "lastDate": "2026-10-07",
-      "points": 6133
+      "lastDate": "2026-10-08",
+      "points": 6134
     },
     {
       "id": "gold",
@@ -119,8 +119,8 @@
       "source": "yahoo:GC=F",
       "adjusted": false,
       "firstDate": "2000-08-30",
-      "lastDate": "2026-10-07",
-      "points": 6551
+      "lastDate": "2026-10-08",
+      "points": 6552
     },
     {
       "id": "sp500",
@@ -130,8 +130,8 @@
       "source": "yahoo:^GSPC",
       "adjusted": false,
       "firstDate": "1990-01-02",
-      "lastDate": "2026-10-07",
-      "points": 9259
+      "lastDate": "2026-10-08",
+      "points": 9260
     }
   ],
   "failed": []
