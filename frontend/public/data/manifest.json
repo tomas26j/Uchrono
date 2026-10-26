@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-25T11:53:11.851Z",
+  "updatedAt": "2026-10-26T13:23:29.523Z",
   "assets": [
     {
       "id": "bitcoin",
@@ -9,8 +9,8 @@
       "source": "yahoo:BTC-USD",
       "adjusted": false,
       "firstDate": "2010-08-18",
-      "lastDate": "2026-10-25",
-      "points": 5913
+      "lastDate": "2026-10-26",
+      "points": 5914
     },
     {
       "id": "ethereum",
@@ -20,8 +20,8 @@
       "source": "yahoo:ETH-USD",
       "adjusted": false,
       "firstDate": "2017-11-09",
-      "lastDate": "2026-10-25",
-      "points": 3273
+      "lastDate": "2026-10-26",
+      "points": 3274
     },
     {
       "id": "dogecoin",
@@ -31,8 +31,8 @@
       "source": "yahoo:DOGE-USD",
       "adjusted": false,
       "firstDate": "2017-11-09",
-      "lastDate": "2026-10-25",
-      "points": 3273
+      "lastDate": "2026-10-26",
+      "points": 3274
     },
     {
       "id": "tesla",
@@ -119,8 +119,8 @@
       "source": "yahoo:GC=F",
       "adjusted": false,
       "firstDate": "2000-08-30",
-      "lastDate": "2026-10-23",
-      "points": 6563
+      "lastDate": "2026-10-26",
+      "points": 6564
     },
     {
       "id": "sp500",
